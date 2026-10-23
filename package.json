@@ -1,0 +1,31 @@
+{
+  "name": "dtc245200223-appointment",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env app/server.js",
+    "migrate": "node --env-file-if-exists=.env app/migrate.js",
+    "setup": "node scripts/setup-env.js",
+    "test": "node --test tests/unit.test.js",
+    "test:integration": "node --env-file-if-exists=.env --test --test-concurrency=1 tests/integration.test.js",
+    "smoke": "node scripts/smoke.js"
+  },
+  "dependencies": {
+    "connect-pg-simple": "^10.0.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0",
+    "pg": "^8.16.3",
+    "pino": "^10.0.0",
+    "prom-client": "^15.1.3"
+  },
+  "devDependencies": {
+    "embedded-postgres": "^17.10.0-beta.17"
+  }
+}

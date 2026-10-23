@@ -1,0 +1,11 @@
+node_modules
+.git
+.env
+.env.*
+docx
+docs
+Assets
+backups
+logs
+tmp
+coverage

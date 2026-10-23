@@ -1,0 +1,18 @@
+node_modules/
+.env
+.env.*
+!.env.example
+backups/
+logs/
+tmp/
+coverage/
+docs/wsl-install.log
+docs/evidence/*.json
+docs/evidence/*.log
+*.dump
+*.key
+*.pem
+*.pid
+# Course material and other students' reports stay on this machine.
+docx/
+docs/sources/
