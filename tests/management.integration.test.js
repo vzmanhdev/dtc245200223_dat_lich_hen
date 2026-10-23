@@ -4,7 +4,7 @@ import {randomUUID} from 'node:crypto';
 const base=process.env.TEST_BASE_URL||`http://127.0.0.1:${process.env.WEB_PORT||8080}`;
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 let lastRequest=0;
-async function fetch(...args){await wait(Math.max(0,lastRequest+220-Date.now()));lastRequest=Date.now();return globalThis.fetch(...args);}
+async function fetch(...args){await wait(Math.max(0,lastRequest+220-Date.now()));lastRequest=Date.now();const r=await globalThis.fetch(...args);const body=await r.arrayBuffer();return new Response(body,{status:r.status,statusText:r.statusText,headers:r.headers});}
 async function session(cookie=''){const r=await fetch(base+'/api/csrf',{headers:{Cookie:cookie}});assert.equal(r.status,200);return {cookie:cookie||r.headers.getSetCookie().map(v=>v.split(';')[0]).join('; '),csrf:(await r.json()).csrf};}
 async function post(path,body,s){return fetch(base+path,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json',Cookie:s.cookie,'X-CSRF-Token':s.csrf},body:JSON.stringify(body)});}
 async function save(path,body,s,status=200){const r=await post(path,body,s),data=await r.json();assert.equal(r.status,status,`${path}: ${JSON.stringify(data)}`);return data;}

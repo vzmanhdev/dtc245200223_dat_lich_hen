@@ -100,3 +100,12 @@ document.querySelectorAll('.manage-action').forEach(button=>button.addEventListe
  button.disabled=true;if(!await confirmAction(button.dataset.confirm||'Thực hiện thao tác này?')){button.disabled=false;return;}
  try{const result=await api(button.dataset.url,button.dataset.open===undefined?{}:{isOpen:button.dataset.open==='true'});sessionStorage.setItem('appointment-message',result.message);location.reload();}catch(error){toast(error.message);button.disabled=false;}
 }));
+
+const slotAdminForm=document.querySelector('.manage-form[action^="/api/admin/slots"]');
+if(slotAdminForm){
+ const service=slotAdminForm.querySelector('[name=serviceId]'),staff=slotAdminForm.querySelector('[name=staffId]');let requestNumber=0;
+ async function assignedStaff(){const number=++requestNumber,selected=staff.value;staff.disabled=true;staff.replaceChildren(new Option(service.value?'Đang tải nhân viên…':'Chọn dịch vụ trước',''));if(!service.value)return;
+  try{const response=await fetch('/api/staff?serviceId='+encodeURIComponent(service.value),{headers:{Accept:'application/json'}});const rows=await response.json();if(number!==requestNumber)return;if(!response.ok)throw new Error(rows.error);staff.replaceChildren(new Option(rows.length?'Chọn nhân viên đã phân công':'Chưa có nhân viên phụ trách',''));rows.forEach(m=>staff.add(new Option(m.full_name,m.id)));staff.disabled=!rows.length;if(rows.some(m=>String(m.id)===selected))staff.value=selected;}catch(error){toast(error.message);}
+ }
+ service.addEventListener('change',assignedStaff);assignedStaff();
+}

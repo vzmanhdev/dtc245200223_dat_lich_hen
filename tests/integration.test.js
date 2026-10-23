@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 
+// Drain HTTP response bodies so Node's keep-alive sockets do not stall test completion.
+async function fetch(...args){const r=await globalThis.fetch(...args);const body=await r.arrayBuffer();return new Response(body,{status:r.status,statusText:r.statusText,headers:r.headers});}
 const base=process.env.TEST_BASE_URL || `http://127.0.0.1:${process.env.WEB_PORT || 8080}`;
 async function browser() {
   const response=await fetch(base+'/api/csrf');

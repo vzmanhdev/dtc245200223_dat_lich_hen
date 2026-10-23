@@ -156,7 +156,7 @@ async function updateStatus(id,to,actor,token,accountId=null) {
     const row=await db.query(`SELECT a.id,a.status,a.token_hash,t.start_at,t.end_at FROM appointments a JOIN time_slots t ON t.id=a.slot_id WHERE ${token?'a.token_hash=$1':'a.id=$1'} AND ($2::bigint IS NULL OR EXISTS(SELECT 1 FROM customers c WHERE c.id=a.customer_id AND c.account_id=$2)) FOR UPDATE OF a`,[token?tokenHash(token):id,accountId]);
     const a=row.rows[0];
     if (!a) throw fail('Không tìm thấy lịch hẹn.',404);
-    if (!canTransition(a.status,to,a.start_at,a.end_at)) throw fail('Không thể đổi trạng thái lịch này tại thời điểm hiện tại.',409);
+    if (!(actor&&to==='cancelled'&&['pending','confirmed'].includes(a.status)) && !canTransition(a.status,to,a.start_at,a.end_at)) throw fail('Không thể đổi trạng thái lịch này tại thời điểm hiện tại.',409);
     await db.query('UPDATE appointments SET status=$2,updated_at=now() WHERE id=$1',[a.id,to]);
     await db.query('INSERT INTO appointment_events(appointment_id,from_status,to_status,actor_type,actor_admin_id) VALUES($1,$2,$3,$4,$5)',[a.id,a.status,to,actor?'admin':'customer',actor?.id || null]);
     await db.query('COMMIT');
