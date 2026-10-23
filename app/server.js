@@ -199,7 +199,7 @@ app.use((error,req,res,next) => {
   res.status(status).format({html:()=>res.render('error',{message,status}),default:()=>res.json({error:message,requestId:req.requestId})});
 });
 pool.on('error',error=>logger.error({code:error.code || 'DB_POOL_ERROR'},'database connection error'));
-const server=app.listen(Number(process.env.PORT || 3000),'0.0.0.0',()=>logger.info({port:Number(process.env.PORT || 3000)},'appointment server started'));
+const server=app.listen(Number(process.env.PORT || 3000),process.env.BIND_HOST || '0.0.0.0',()=>logger.info({port:Number(process.env.PORT || 3000)},'appointment server started'));
 server.requestTimeout=15000;
 let shutting=false;
 async function shutdown() {
