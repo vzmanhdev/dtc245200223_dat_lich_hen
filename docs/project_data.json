@@ -34,9 +34,11 @@
       "5bec305",
       "8709311",
       "fb4e5d6",
-      "7d23576"
+      "7d23576",
+      "034f0e3",
+      "78b2991"
     ],
-    "latest_feature_commit": "7d23576"
+    "latest_feature_commit": "78b2991"
   },
   "deadline": {
     "duration_hours": 24,
@@ -1118,7 +1120,8 @@
     "docs/TRANG_THAI_LOCALHOST.md",
     "compose.yaml",
     "docs/06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md",
-    "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+    "docs/07_HUONG_DAN_QUAN_TRI_V3.md",
+    "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md"
   ],
   "verification": {
     "unit_tests": {
@@ -1187,6 +1190,33 @@
       "fresh_schema": "docs/evidence/fresh-schema-v3.json",
       "recreate": "docs/evidence/v3-recreate.json",
       "restore": "docs/evidence/v3-restore.json"
+    },
+    "requirements_audit": {
+      "status": "completed_with_remaining_deliverables",
+      "report": "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+      "stack_checks": 16,
+      "deep_probes": 9,
+      "pgadmin_ui": "services query succeeded",
+      "grafana_ui": "dashboard and Loki Explore verified",
+      "fix_commits": [
+        "034f0e3",
+        "78b2991"
+      ],
+      "remaining": [
+        "personal Word report >=10 pages",
+        "explicit clone instructions and full fresh-clone rehearsal",
+        "GitHub account naming interpretation",
+        "optional template differences: Network I/O dashboard, HTTPS, all-container logs, host firewall"
+      ]
+    },
+    "log_rotation": {
+      "status": "passed_after_fix",
+      "record": "docs/evidence/log-rotation-verification.json"
+    },
+    "log_ingestion": {
+      "status": "passed_for_new_events_after_fix",
+      "record": "docs/evidence/log-ingestion-verification.json",
+      "historical_duplicates_preserved": true
     }
   },
   "scope_change": {

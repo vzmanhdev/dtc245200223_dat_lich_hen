@@ -116,3 +116,5 @@ docker compose up -d --wait
 ## Trạng thái thực tế và hồ sơ
 
 Xem [trạng thái triển khai](docs/TRANG_THAI_LOCALHOST.md), [kế hoạch local](docs/03_KE_HOACH_PROJECT.md), [hồ sơ phân tích](docs/README.md) và `docs/project_data.json`. Chỉ đánh dấu hạ tầng đạt khi đã có output kiểm thử thật. Không sử dụng ảnh/kết quả báo cáo mẫu làm bằng chứng của project.
+
+Kết quả rà soát yêu cầu và các mục hồ sơ còn thiếu: [đối chiếu đề bài và báo cáo mẫu](docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md). Có thể chạy `node scripts/audit-requirements.js` để kiểm tra sâu. Xoay log hiện chạy trong container Nginx để cùng phục hồi khi restart; Promtail app/Nginx đọc file hiện hành và lấy thời gian JSON.

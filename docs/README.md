@@ -26,3 +26,5 @@ Các bản trích xuất trong `sources/` giữ nguyên lỗi câu chữ/cú ph�
 Đã có mã ứng dụng, Dockerfile và compose.yaml tại gốc. Các kết quả native/kiểm tra cú pháp chưa thay thế nghiệm thu full stack Docker. Khi triển khai, cập nhật trạng thái, kết quả kiểm thử, phiên bản image và đường dẫn minh chứng tại từng mốc.
 
 8. [Hướng dẫn quản trị v3](07_HUONG_DAN_QUAN_TRI_V3.md): nghiệp vụ và kết quả mới nhất, thay cho các giới hạn seed/CRUD trong tài liệu giai đoạn trước.
+
+9. [Đối chiếu đề 40 và báo cáo mẫu](08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md): kiểm tra runtime hiện tại, bảng yêu cầu, sai khác với mẫu, lỗi log đã sửa và hồ sơ còn thiếu.

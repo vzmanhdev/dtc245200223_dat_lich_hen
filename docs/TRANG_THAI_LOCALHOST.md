@@ -37,3 +37,7 @@ Báo cáo Word ≥10 trang theo bìa mẫu chưa được tạo; GitHub đã pus
 ## Nâng cấp v3
 
 Đã thống nhất GET/POST `/login`, cập nhật tài khoản admin theo cấu hình `.env`, thêm quản trị dịch vụ/nhân viên/phân công/khung giờ/khách hàng và hồ sơ khách. 4 unit + 3 nhóm integration + 15 kiểm tra stack đạt. Fresh DB migration, recreate app không reload Nginx và restore schema v3 đã kiểm chứng. Chi tiết tại [hướng dẫn quản trị v3](07_HUONG_DAN_QUAN_TRI_V3.md).
+
+## Rà soát đề bài và báo cáo mẫu
+
+Đã đối chiếu trực tiếp nguồn Word và runtime. Phát hiện/sửa lỗi sidecar xoay log dừng sau restart Nginx, thu trùng file xoay và thiếu parse thời gian JSON app/Nginx. Kiểm tra hiện tại: 16/16 stack, 9/9 probe sâu; pgAdmin đọc bảng services và Grafana/LogQL có minh chứng UI. Báo cáo Word cá nhân và fresh clone vẫn chưa hoàn tất. Chi tiết tại [biên bản đối chiếu](08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md).
