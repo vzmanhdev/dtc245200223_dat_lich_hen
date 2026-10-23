@@ -9,7 +9,7 @@ Cập nhật 24/10/2026 lúc 02:12 UTC+7. Nguyễn Văn Mạnh · dtc245200223 �
 | L2 Nghiệp vụ | Integration qua Nginx, PostgreSQL thật; đặt, xác nhận, hủy, auth, concurrency | Đạt |
 | L3 Giám sát | 5 targets UP, exporter và container metric, dashboard 13 panel, 3 LogQL | Đạt kiểm tra tự động; còn chụp từng dashboard cho báo cáo |
 | L4 Phục hồi | Backup/restore vào DB riêng, giữ dữ liệu khi restart, hardening | Đạt; chưa quét image/diễn tập rollback |
-| L5 Hồ sơ | README, phân tích yêu cầu, dữ liệu tổng quan, Git local | Đã có; chưa push GitHub |
+| L5 Hồ sơ | README, phân tích yêu cầu, dữ liệu tổng quan, Git local | Đã có và đã push GitHub |
 | L6 Báo cáo | Word ≥10 trang, bìa mẫu S12, thông tin sinh viên và ảnh/số liệu thật | Chưa viết |
 | L7 Bàn giao | Fresh clone theo README và diễn tập demo 10–15 phút | Chưa thực hiện |
 

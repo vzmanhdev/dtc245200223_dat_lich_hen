@@ -22,14 +22,16 @@
     "url": "https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git",
     "owner": "vzmanhdev",
     "local_git_initialized": true,
-    "remote_check": "git ls-remote exit 0 with no refs",
-    "remote_content_verified": false,
-    "pushed": false,
+    "remote_check": "origin/main verified equal local HEAD 8709311 after authenticated push",
+    "remote_content_verified": true,
+    "pushed": true,
     "first_implementation_commit": "08fe70d",
     "implementation_commits": [
       "08fe70d",
       "a2d5e5a",
-      "726abe3"
+      "726abe3",
+      "5bec305",
+      "8709311"
     ]
   },
   "deadline": {
@@ -1031,7 +1033,7 @@
   "risks": [
     "Promtail đã EOL nhưng đề yêu cầu",
     "Ảnh/kết quả báo cáo mẫu không phải minh chứng cá nhân",
-    "Báo cáo Word và push GitHub chưa hoàn tất; chưa chạy kiểm thử tải dài hạn hoặc quét toàn bộ image."
+    "Báo cáo Word chưa hoàn tất; chưa chạy kiểm thử tải dài hạn hoặc quét toàn bộ image."
   ],
   "deliverables": [
     "docs/01_TONG_QUAN_DU_AN.md",

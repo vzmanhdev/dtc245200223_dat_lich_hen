@@ -28,4 +28,4 @@ Tài khoản/mật khẩu nằm trong `.env` trên máy: ADMIN_USERNAME/ADMIN_PA
 
 Mở Docker Desktop rồi chạy `powershell -ExecutionPolicy Bypass -File scripts/start.ps1` khi cần khởi động project. Giữ nguyên `.env` và named volumes. Không chạy `docker compose down -v` vì sẽ xóa dữ liệu.
 
-Báo cáo Word ≥10 trang theo bìa mẫu chưa được tạo; GitHub chưa push. Chưa diễn tập fresh clone, rollback image, kiểm thử tải dài hạn hoặc quét toàn bộ image. Dịch vụ và khung giờ dùng seed; chưa có CRUD đầy đủ. Runtime localhost đã qua kiểm tra; hồ sơ nộp vẫn cần hoàn thiện.
+Báo cáo Word ≥10 trang theo bìa mẫu chưa được tạo; GitHub đã push thành công nhánh main; remote đã đối chiếu khớp commit local. Chưa diễn tập fresh clone, rollback image, kiểm thử tải dài hạn hoặc quét toàn bộ image. Dịch vụ và khung giờ dùng seed; chưa có CRUD đầy đủ. Runtime localhost đã qua kiểm tra; hồ sơ nộp vẫn cần hoàn thiện.
