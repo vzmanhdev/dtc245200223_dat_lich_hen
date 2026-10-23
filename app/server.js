@@ -1,8 +1,9 @@
 import express from 'express';
+import { customerRoutes, requireCustomer } from './customer-auth.js';
 import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import helmet from 'helmet';
-import { rateLimit } from 'express-rate-limit';
+import { rateLimit, ipKeyGenerator } from 'express-rate-limit';
 import { randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';
@@ -27,6 +28,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(root,'views'));
 app.locals.csrf='';
 app.locals.user=null;
+app.locals.customer=null;
 app.use(helmet({ strictTransportSecurity: false, contentSecurityPolicy: { directives: { upgradeInsecureRequests: null } } }));
 app.use(express.json({ limit:'16kb' }));
 app.use(express.urlencoded({ extended:false, limit:'16kb' }));
@@ -61,15 +63,18 @@ app.use(session({
   name:'appointment.sid', secret:process.env.SESSION_SECRET, resave:false, saveUninitialized:false,
   cookie:{httpOnly:true,sameSite:'strict',secure:false,maxAge:2*60*60*1000}
 }));
-app.use((req,res,next) => {
+app.use(async(req,res,next) => {
+ try {
+  res.locals.customer = req.session.customerId ? (await pool.query('SELECT id,email,full_name,phone FROM customer_accounts WHERE id=$1 AND active',[req.session.customerId])).rows[0] || null : null;
   res.locals.csrf = req.session.csrf ||= randomBytes(32).toString('hex');
   res.locals.user = req.session.admin || null;
   res.locals.statusNames=statusNames;
   res.locals.formatDate=formatDate;
   res.locals.formatTime=formatTime;
   next();
+ }catch(e){next(e);}
 });
-const limited = rateLimit({windowMs:60_000,limit:30,standardHeaders:'draft-8',legacyHeaders:false,message:{error:'Bạn thao tác quá nhanh. Vui lòng thử lại sau một phút.'}});
+const limited = rateLimit({windowMs:60_000,limit:30,keyGenerator:(req,res)=>res.locals.customer?'customer:'+res.locals.customer.id:ipKeyGenerator(req.ip),standardHeaders:'draft-8',legacyHeaders:false,message:{error:'Bạn thao tác quá nhanh. Vui lòng thử lại sau một phút.'}});
 const loginLimit = rateLimit({windowMs:15*60_000,limit:15,standardHeaders:'draft-8',legacyHeaders:false,message:{error:'Quá nhiều lần đăng nhập. Vui lòng thử lại sau.'}});
 function csrf(req,res,next) {
   const supplied = String(req.get('X-CSRF-Token') || req.body?._csrf || '');
@@ -82,44 +87,48 @@ function admin(req,res,next) {
   next();
 }
 const fail = (message,status=400) => Object.assign(new Error(message),{status});
-const bookingSelect = `SELECT a.id,a.booking_code,a.status,a.service_name_snapshot AS service_name,a.created_at,t.start_at,t.end_at FROM appointments a JOIN time_slots t ON t.id=a.slot_id`;
+const bookingSelect = `SELECT a.id,a.booking_code,a.status,a.service_name_snapshot AS service_name,a.created_at,t.start_at,t.end_at,member.full_name AS staff_name,t.staff_id FROM appointments a JOIN time_slots t ON t.id=a.slot_id JOIN staff member ON member.id=t.staff_id`;
 app.get('/',async(req,res,next) => {
-  try { const services = await pool.query('SELECT id,name,description,duration_minutes,price FROM services WHERE active ORDER BY id'); res.render('index',{services:services.rows}); } catch(e) { next(e); }
+  try { const services = await pool.query('SELECT id,name,description,duration_minutes,price FROM services WHERE active ORDER BY id'); const staff=await pool.query('SELECT id,full_name,title,bio FROM staff WHERE active ORDER BY id'); res.render('index',{services:services.rows,staff:staff.rows}); } catch(e) { next(e); }
 });
+customerRoutes(app,{pool,csrf,loginLimit,bookingSelect,updateStatus});
+app.get('/api/staff',async(req,res,next)=>{try{res.json((await pool.query('SELECT id,full_name,title,bio FROM staff WHERE active ORDER BY id')).rows);}catch(e){next(e);}});
 app.get('/api/csrf',(req,res) => res.json({csrf:req.session.csrf}));
 app.get('/api/services',async(req,res,next) => {
   try { res.json((await pool.query('SELECT id,name,description,duration_minutes,price FROM services WHERE active ORDER BY id')).rows); } catch(e) { next(e); }
 });
 app.get('/api/slots',async(req,res,next) => {
   try {
-    const id=Number(req.query.serviceId),date=String(req.query.date || '');
+    const id=Number(req.query.serviceId),date=String(req.query.date || ''),staffId=req.query.staffId===undefined?null:Number(req.query.staffId);
+    if(staffId!==null&&(!Number.isSafeInteger(staffId)||staffId<1))throw fail('Chọn chuyên viên hợp lệ.',422);
     if (!Number.isSafeInteger(id) || id<1 || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(date))) throw fail('Chọn dịch vụ và ngày hợp lệ.',422);
-    const rows = await pool.query(`SELECT t.id,t.start_at,t.end_at FROM time_slots t JOIN services s ON s.id=t.service_id WHERE t.service_id=$1 AND s.active AND t.is_open AND t.start_at>now() AND (t.start_at AT TIME ZONE 'Asia/Ho_Chi_Minh')::date=$2::date AND NOT EXISTS(SELECT 1 FROM appointments a WHERE a.slot_id=t.id AND a.status IN ('pending','confirmed','completed')) ORDER BY t.start_at`,[id,date]);
+    const rows = await pool.query(`SELECT t.id,t.start_at,t.end_at,t.staff_id,member.full_name AS staff_name FROM time_slots t JOIN services s ON s.id=t.service_id JOIN staff member ON member.id=t.staff_id WHERE member.active AND ($3::integer IS NULL OR t.staff_id=$3) AND t.service_id=$1 AND s.active AND t.is_open AND t.start_at>now() AND (t.start_at AT TIME ZONE 'Asia/Ho_Chi_Minh')::date=$2::date AND NOT EXISTS(SELECT 1 FROM appointments a WHERE a.slot_id=t.id AND a.status IN ('pending','confirmed','completed')) ORDER BY t.start_at,t.staff_id`,[id,date,staffId]);
     res.json(rows.rows);
   } catch(e) { if (e.code==='22008') e=fail('Ngày không hợp lệ.',422); next(e); }
 });
-app.post('/api/appointments',limited,csrf,async(req,res,next) => {
+app.post('/api/appointments',limited,csrf,requireCustomer,async(req,res,next) => {
   let db;
   try {
-    const input=validateBooking(req.body);
-    const hash=tokenHash(JSON.stringify([input.name,input.phone,input.email,input.slotId]));
+    const profile=res.locals.customer;
+    const input=validateBooking({...req.body,fullName:profile.full_name,phone:profile.phone,email:profile.email});
+    const hash=tokenHash(JSON.stringify([profile.id,input.name,input.phone,input.email,input.slotId]));
     db=await pool.connect(); await db.query('BEGIN');
     await db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[input.key]);
     const previous=await db.query('SELECT id,booking_code,request_hash,status FROM appointments WHERE idempotency_key=$1',[input.key]);
     if (previous.rowCount) {
       if (previous.rows[0].request_hash!==hash) throw fail('Mã yêu cầu đã được dùng cho nội dung khác.',409);
       await db.query('COMMIT');
-      return res.json({bookingCode:previous.rows[0].booking_code,status:previous.rows[0].status,replayed:true,message:'Lịch đã được tạo trước đó. Token chỉ được cung cấp trong lần đầu.'});
+      return res.json({bookingCode:previous.rows[0].booking_code,status:previous.rows[0].status,replayed:true,message:'Lịch đã được tạo trước đó. Bạn có thể xem trong tài khoản.'});
     }
-    const slot=await db.query(`SELECT t.*,s.name,s.active FROM time_slots t JOIN services s ON s.id=t.service_id WHERE t.id=$1 FOR UPDATE OF t`,[input.slotId]);
+    const slot=await db.query(`SELECT t.*,s.name,s.active,member.active AS staff_active,member.full_name AS staff_name FROM time_slots t JOIN services s ON s.id=t.service_id JOIN staff member ON member.id=t.staff_id WHERE t.id=$1 FOR UPDATE OF t`,[input.slotId]);
     const item=slot.rows[0];
-    if (!item || !item.is_open || !item.active || new Date(item.start_at)<=new Date()) throw fail('Khung giờ không còn mở. Vui lòng chọn giờ khác.',409);
-    const customer=await db.query('INSERT INTO customers(full_name,phone,email) VALUES($1,$2,$3) RETURNING id',[input.name,input.phone,input.email]);
+    if (!item || !item.is_open || !item.active || !item.staff_active || new Date(item.start_at)<=new Date()) throw fail('Khung giờ không còn mở. Vui lòng chọn giờ khác.',409);
+    const customer=await db.query('INSERT INTO customers(full_name,phone,email,account_id) VALUES($1,$2,$3,$4) RETURNING id',[input.name,input.phone,input.email,profile.id]);
     const token=randomBytes(32).toString('base64url'),code='MH-'+randomBytes(6).toString('hex').toUpperCase();
     const result=await db.query('INSERT INTO appointments(booking_code,token_hash,idempotency_key,request_hash,customer_id,slot_id,service_name_snapshot) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING id',[code,tokenHash(token),input.key,hash,customer.rows[0].id,input.slotId,item.name]);
     await db.query(`INSERT INTO appointment_events(appointment_id,to_status,actor_type) VALUES($1,'pending','customer')`,[result.rows[0].id]);
     await db.query('COMMIT');
-    res.status(201).json({bookingCode:code,token,status:'pending',serviceName:item.name,startAt:item.start_at,endAt:item.end_at});
+    res.status(201).json({bookingCode:code,token,status:'pending',serviceName:item.name,staffName:item.staff_name,startAt:item.start_at,endAt:item.end_at});
   } catch(e) {
     if(db) await db.query('ROLLBACK').catch(()=>{});
     if(e.code==='23505') e=fail('Khung giờ vừa có người đặt. Vui lòng chọn giờ khác.',409);
@@ -135,11 +144,11 @@ app.post('/api/appointments/lookup',limited,csrf,async(req,res,next) => {
     res.json(rows.rows[0]);
   } catch(e) { next(e); }
 });
-async function updateStatus(id,to,actor,token) {
+async function updateStatus(id,to,actor,token,accountId=null) {
   const db=await pool.connect();
   try {
     await db.query('BEGIN');
-    const row=await db.query(`SELECT a.id,a.status,a.token_hash,t.start_at,t.end_at FROM appointments a JOIN time_slots t ON t.id=a.slot_id WHERE ${token?'a.token_hash=$1':'a.id=$1'} FOR UPDATE OF a`,[token?tokenHash(token):id]);
+    const row=await db.query(`SELECT a.id,a.status,a.token_hash,t.start_at,t.end_at FROM appointments a JOIN time_slots t ON t.id=a.slot_id WHERE ${token?'a.token_hash=$1':'a.id=$1'} AND ($2::bigint IS NULL OR EXISTS(SELECT 1 FROM customers c WHERE c.id=a.customer_id AND c.account_id=$2)) FOR UPDATE OF a`,[token?tokenHash(token):id,accountId]);
     const a=row.rows[0];
     if (!a) throw fail('Không tìm thấy lịch hẹn.',404);
     if (!canTransition(a.status,to,a.start_at,a.end_at)) throw fail('Không thể đổi trạng thái lịch này tại thời điểm hiện tại.',409);

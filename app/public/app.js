@@ -13,15 +13,15 @@ const timeFormat=v=>new Intl.DateTimeFormat('vi-VN',{timeZone:'Asia/Ho_Chi_Minh'
 const statuses={pending:'Chờ xác nhận',confirmed:'Đã xác nhận',completed:'Hoàn thành',cancelled:'Đã hủy'};
 function showError(selector,error) { const el=$(selector);el.textContent=error.message;el.hidden=false; }
 if($('#booking-form')) {
-  const service=$('#service-select'),date=$('#booking-date'),slot=$('#slot-select');
+  const service=$('#service-select'),date=$('#booking-date'),slot=$('#slot-select'),staff=$('#staff-select');
   const localDate=offset=>{const d=new Date(Date.now()+offset*86400000);const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);return ['year','month','day'].map(k=>parts.find(x=>x.type===k).value).join('-');};
   date.min=localDate(0);date.max=localDate(13);date.value=date.min;
   let key=crypto.randomUUID().replaceAll('-',''),lastPayload='',loadNumber=0;
   async function loadSlots() {
     const number=++loadNumber;slot.disabled=true;slot.replaceChildren(new Option('Đang tìm khung giờ…',''));
-    if(!service.value||!date.value){slot.replaceChildren(new Option('Chọn dịch vụ và ngày',''));return;}
+    if(!service.value||!date.value||!staff.value){slot.replaceChildren(new Option('Chọn dịch vụ và ngày',''));return;}
     try {
-      const response=await fetch(`/api/slots?serviceId=${encodeURIComponent(service.value)}&date=${encodeURIComponent(date.value)}`,{headers:{Accept:'application/json'}});
+      const response=await fetch(`/api/slots?serviceId=${encodeURIComponent(service.value)}&date=${encodeURIComponent(date.value)}&staffId=${encodeURIComponent(staff.value)}`,{headers:{Accept:'application/json'}});
       const data=await response.json();if(number!==loadNumber)return;
       if(!response.ok)throw new Error(data.error);
       slot.replaceChildren(new Option(data.length?'Chọn giờ phù hợp':'Ngày này chưa có giờ trống',''));
@@ -29,7 +29,7 @@ if($('#booking-form')) {
       slot.disabled=!data.length;
     }catch(e){if(number===loadNumber)slot.replaceChildren(new Option('Chưa tải được, hãy chọn lại',''));toast(e.message);}
   }
-  service.addEventListener('change',loadSlots);date.addEventListener('change',loadSlots);
+  staff.addEventListener('change',loadSlots);service.addEventListener('change',loadSlots);date.addEventListener('change',loadSlots);
   document.querySelectorAll('.choose-service').forEach(button=>button.addEventListener('click',()=>{service.value=button.dataset.service;loadSlots();$('#booking').scrollIntoView({behavior:'smooth'});}));
   $('#booking-form').addEventListener('submit',async event=>{
     event.preventDefault();const form=event.currentTarget,button=form.querySelector('button[type=submit]');$('#booking-error').hidden=true;
@@ -39,14 +39,15 @@ if($('#booking-form')) {
     try {
       const data=await api('/api/appointments',body);
       if(data.replayed){toast(data.message);await loadSlots();return;}
-      $('#booking-code').textContent=data.bookingCode;$('#booking-token').value=data.token;
-      $('#success-detail').textContent=`${data.serviceName} · ${dateFormat(data.startAt)} – ${timeFormat(data.endAt)}`;
+      $('#booking-code').textContent=data.bookingCode;
+      $('#success-detail').textContent=`${data.serviceName} · ${data.staffName} · ${dateFormat(data.startAt)} – ${timeFormat(data.endAt)}`;
       $('#success-dialog').showModal();key=crypto.randomUUID().replaceAll('-','');lastPayload='';form.reset();date.value=date.min;await loadSlots();
     }catch(error){showError('#booking-error',error);await loadSlots();}
     finally{button.disabled=false;button.replaceChildren(document.createTextNode('Gửi yêu cầu đặt lịch ↗'));}
   });
   document.querySelectorAll('.close-dialog').forEach(button=>button.addEventListener('click',()=>$('#success-dialog').close()));
-  $('#copy-token').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('#booking-token').value);toast('Đã sao chép token tra cứu.');}catch{const input=$('#booking-token');input.select();toast('Chọn token rồi nhấn Ctrl+C để sao chép.');}});
+}
+if($('#lookup-form')) {
   $('#lookup-form').addEventListener('submit',async event=>{
     event.preventDefault();$('#lookup-error').hidden=true;const target=$('#lookup-result');target.hidden=true;
     try {
@@ -65,3 +66,11 @@ document.querySelectorAll('.row-actions button').forEach(button=>button.addEvent
   button.disabled=true;
   try{await api(`/api/admin/appointments/${button.dataset.id}/status`,{status:button.dataset.status});location.reload();}catch(error){toast(error.message);button.disabled=false;}
 }));
+
+document.querySelectorAll('.cancel-owned').forEach(button=>button.addEventListener('click',async()=>{
+ if(!confirm('Bạn muốn hủy lịch hẹn này?'))return;
+ button.disabled=true;
+ try{await api(`/api/my/appointments/${button.dataset.id}/cancel`,{});location.reload();}catch(error){toast(error.message);button.disabled=false;}
+}));
+
+if(!$('#booking-form'))document.querySelectorAll('.choose-service').forEach(button=>button.addEventListener('click',()=>location.assign('/login')));
