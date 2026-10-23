@@ -7,19 +7,35 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 scrape_configs:
   - job_name: appointment
+    pipeline_stages:
+      - json:
+          expressions:
+            event_time: time
+      - timestamp:
+          source: event_time
+          format: RFC3339Nano
+          action_on_failure: skip
     static_configs:
       - targets: [localhost]
         labels:
           service: app
           environment: local
-          __path__: /var/log/appointment/*.log*
+          __path__: /var/log/appointment/app.log
   - job_name: nginx
+    pipeline_stages:
+      - json:
+          expressions:
+            event_time: time
+      - timestamp:
+          source: event_time
+          format: RFC3339Nano
+          action_on_failure: skip
     static_configs:
       - targets: [localhost]
         labels:
           service: nginx
           environment: local
-          __path__: /var/log/appointment-nginx/*.log*
+          __path__: /var/log/appointment-nginx/access.log
   - job_name: postgres
     static_configs:
       - targets: [localhost]
