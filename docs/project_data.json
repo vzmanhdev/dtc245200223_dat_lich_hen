@@ -6,9 +6,9 @@
     "topic_number": 40,
     "name": "Hệ thống đặt lịch hẹn Appointment",
     "course": "Triển khai và Quản trị Hệ thống Phần mềm",
-    "phase": "implementation_localhost",
+    "phase": "localhost_verified_report_pending",
     "application_implemented": true,
-    "deployment_verified": false
+    "deployment_verified": true
   },
   "student": {
     "full_name": "Nguyễn Văn Mạnh",
@@ -46,13 +46,13 @@
     "local_os": "Windows",
     "container_os": "Linux",
     "docker_cli_found": true,
-    "docker_daemon_verified": false,
+    "docker_daemon_verified": true,
     "vps_available": false,
     "vps_provider": null,
     "vps_ip": null,
     "domain": null,
     "credentials_available": false,
-    "status": "waiting_for_local_docker",
+    "status": "localhost_verified",
     "vps_provider_proposal": null,
     "provider_selected": false,
     "spending_authorized": false,
@@ -61,11 +61,13 @@
     "vps_required": false,
     "domain_required": false,
     "docker_cli_path": "C:/Users/ADMIN/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe",
-    "blocker": "WSL not installed; user is handling Administrator setup",
-    "preview_url": "http://localhost:3300",
+    "blocker": null,
+    "preview_url": null,
     "full_stack_url": "http://localhost:8080",
-    "preview_scope": "native app + native PostgreSQL only",
-    "full_stack_running": false
+    "preview_scope": "Native preview stopped after reboot; use full_stack_url",
+    "full_stack_running": true,
+    "docker_engine_version": "29.9.2",
+    "wsl_version": "3.0.3.0"
   },
   "report": {
     "minimum_pages": 10,
@@ -340,7 +342,7 @@
     {
       "id": "R7",
       "name": "Tổng thể trình bày",
-      "points": 1.0,
+      "points": 1,
       "status": "todo"
     }
   ],
@@ -494,7 +496,7 @@
       "budget_hours": 1,
       "title": "Môi trường và Git",
       "depends_on": [],
-      "status": "todo"
+      "status": "partially_verified"
     },
     {
       "id": "M1",
@@ -505,7 +507,7 @@
       "depends_on": [
         "M0"
       ],
-      "status": "todo"
+      "status": "localhost_mvp_verified"
     },
     {
       "id": "M2",
@@ -516,7 +518,7 @@
       "depends_on": [
         "M1"
       ],
-      "status": "todo"
+      "status": "localhost_mvp_verified"
     },
     {
       "id": "M3",
@@ -527,7 +529,7 @@
       "depends_on": [
         "M2"
       ],
-      "status": "todo"
+      "status": "localhost_mvp_verified"
     },
     {
       "id": "M4",
@@ -538,7 +540,7 @@
       "depends_on": [
         "M3"
       ],
-      "status": "todo"
+      "status": "localhost_mvp_verified"
     },
     {
       "id": "M5",
@@ -549,7 +551,7 @@
       "depends_on": [
         "M4"
       ],
-      "status": "todo"
+      "status": "partially_verified"
     },
     {
       "id": "M6",
@@ -560,7 +562,7 @@
       "depends_on": [
         "M5"
       ],
-      "status": "todo"
+      "status": "localhost_mvp_verified"
     },
     {
       "id": "M7",
@@ -589,7 +591,7 @@
     {
       "id": "T00",
       "milestone": "M0",
-      "title": "Đã xác nhận deadline 24 giờ, Nguyễn Văn Mạnh, dtc245200223, CNTTK23B, repo, mẫu bìa S12 và local → VPS; ghi vào project_data.json.",
+      "title": "Đã xác nhận deadline 24 giờ, thông tin sinh viên, repo và mẫu bìa S12; phạm vi cuối localhost, bỏ VPS.",
       "status": "done",
       "priority": "P0",
       "evidence": []
@@ -598,15 +600,18 @@
       "id": "T01",
       "milestone": "M0",
       "title": "Kiểm tra Docker Desktop/WSL2 hoặc Linux VM; bật Linux containers; chạy `docker version`, `docker compose version`, kiểm tra tài nguyên/port.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T02",
       "milestone": "M0",
       "title": "Khởi tạo Git local; xác nhận identity và remote. Tạo repo GitHub khi đã có tài khoản/định danh được xác nhận.",
-      "status": "todo",
+      "status": "partially_verified",
       "priority": "P0",
       "evidence": []
     },
@@ -614,103 +619,137 @@
       "id": "T03",
       "milestone": "M0",
       "title": "Tạo cấu trúc app/infra/scripts/tests; .gitignore/.dockerignore; .env.example chỉ placeholder; quy tắc LF cho shell script.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T04",
       "milestone": "M0",
       "title": "Chốt dependency bằng lockfile, phiên bản runtime và image được kiểm thử; viết README khởi động ban đầu.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T05",
       "milestone": "M1",
       "title": "Viết migration: các bảng, FK/check, unique booking/idempotency, ràng buộc slot và chống chồng lấn resource.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T06",
       "milestone": "M1",
       "title": "Tạo role owner/migration, app, monitoring; app không owner/superuser. Seed demo tương đối theo ngày chạy.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T07",
       "milestone": "M1",
       "title": "Làm luồng public: dịch vụ → slot → đặt → trả mã/token; transaction, idempotency và xử lý 409.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T08",
       "milestone": "M1",
       "title": "Làm session admin, login/logout, CSRF/rate limit, quản lý dịch vụ/slot/lịch và trạng thái.",
-      "status": "implemented_pending_compose_verification",
+      "status": "partially_verified",
       "priority": "P0_with_optional_extensions",
-      "evidence": []
+      "evidence": [],
+      "reason": "Admin quản lý trạng thái lịch đã kiểm thử; dịch vụ và slot dùng seed, chưa có CRUD đầy đủ."
     },
     {
       "id": "T09",
       "milestone": "M1",
       "title": "Làm tra cứu/hủy riêng tư; form validation, timezone, error/empty state, giao diện responsive.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0_with_optional_extensions",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T10",
       "milestone": "M1",
       "title": "Integration test PostgreSQL: concurrency, retry, giải phóng slot, phân quyền, ranh giới ngày; unit test quy tắc trạng thái.",
-      "status": "passed_native_postgresql_pending_docker",
+      "status": "done",
       "priority": "P0_with_optional_extensions",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T11",
       "milestone": "M2",
       "title": "Viết Dockerfile app với user non-root, dependency production và healthcheck; kiểm tra graceful shutdown.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T12",
       "milestone": "M2",
       "title": "Viết Compose với networks, named volumes, health dependency và migration one-shot; pgAdmin lưu cấu hình.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T13",
       "milestone": "M2",
       "title": "Nginx proxy app qua service DNS, header bảo mật, request ID, giới hạn body/rate; chặn health nội bộ/metrics/status khỏi public.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T14",
       "milestone": "M2",
       "title": "Tạo profile cấu hình local và tài liệu port; kiểm tra volume sau restart/recreate; nginx -t.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T15",
       "milestone": "M2",
       "title": "Chạy AT07/08, cập nhật README và lưu ảnh AT01/DB/Nginx.",
-      "status": "todo",
+      "status": "partially_verified",
       "priority": "P0",
       "evidence": []
     },
@@ -718,23 +757,29 @@
       "id": "T16",
       "milestone": "M3",
       "title": "Instrument app: request count, histogram duration, status theo route template; endpoint metrics nội bộ.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T17",
       "milestone": "M3",
       "title": "Thêm cAdvisor, Nginx exporter, PostgreSQL exporter và role cần thiết; đánh giá host mounts của cAdvisor.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T18",
       "milestone": "M3",
       "title": "Prometheus scrape cấu hình 15 giây, kiểm tra bằng promtool; targets đầy đủ, retention/volume.",
-      "status": "implemented_pending_compose_verification",
+      "status": "partially_verified",
       "priority": "P0",
       "evidence": []
     },
@@ -742,103 +787,133 @@
       "id": "T19",
       "milestone": "M3",
       "title": "Provision Grafana datasource Prometheus và dashboard JSON: container CPU/RAM/I/O, app rate/errors/p95, Nginx connections/requests, DB up/connections/transactions.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T20",
       "milestone": "M3",
       "title": "Phát traffic demo, xác minh tất cả panel có dữ liệu; kiểm tra label/metric thật thay vì import dashboard rồi để No data.",
-      "status": "todo",
+      "status": "partially_verified",
       "priority": "P0",
-      "evidence": []
+      "evidence": [],
+      "reason": "Datasource, 13 panel, exporter và metric container đã kiểm tra; chưa đánh giá trực quan từng panel."
     },
     {
       "id": "T21",
       "milestone": "M4",
       "title": "Chuẩn hóa application log JSON và Nginx access log JSON; gửi stdout/stderr. PostgreSQL log đủ lỗi/kết nối cần demo, không ghi toàn bộ dữ liệu nhạy cảm.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T22",
       "milestone": "M4",
       "title": "Cấu hình Loki schema tương thích image đã pin, volume/retention; Promtail discovery hoặc đường dẫn log phù hợp host, positions bền vững.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T23",
       "milestone": "M4",
       "title": "Chuẩn hóa labels `service`, `environment`; lọc đúng project; không dùng customer ID/token làm label.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T24",
       "milestone": "M4",
       "title": "Provision datasource Loki, viết 3 query và kịch bản tạo log mẫu; chứng minh có cả app/Nginx/PostgreSQL.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T25",
       "milestone": "M4",
       "title": "Test restart agent và tìm log mới; ghi chú EOL Promtail, phương án chuyển Alloy ở bản public.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T26",
       "milestone": "M5",
       "title": "Kiểm tra UID thực tế của tiến trình app; `no-new-privileges`, drop capability, read-only filesystem/tmpfs ở nơi tương thích; kiểm tra app vẫn chạy.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T27",
       "milestone": "M5",
       "title": "Kiểm tra port binding, network isolation, quyền DB, secret management, session/CSRF/security headers; ghi ngoại lệ exporter/agent host mounts.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T28",
       "milestone": "M5",
       "title": "Quét dependency và image bằng công cụ đã chọn; xử lý lỗ hổng quan trọng, lưu phiên bản/cách khắc phục và ngoại lệ còn lại.",
-      "status": "todo",
+      "status": "partially_verified",
       "priority": "P0",
-      "evidence": []
+      "evidence": [],
+      "reason": "npm audit đã chạy; chưa quét toàn bộ container image."
     },
     {
       "id": "T29",
       "milestone": "M5",
       "title": "Viết script backup/restore PostgreSQL, backup cấu hình; backup ngoài volume nguồn; restore vào DB riêng và kiểm tra dữ liệu.",
-      "status": "implemented_pending_compose_verification",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T30",
       "milestone": "M5",
       "title": "Pin release image theo SHA/digest; diễn tập rollback app với schema tương thích và phương án restore khi migration phá tương thích.",
-      "status": "todo",
+      "status": "partially_verified",
       "priority": "P0_with_optional_extensions",
-      "evidence": []
+      "evidence": [],
+      "reason": "Đã pin digest; chưa diễn tập rollback image."
     },
     {
       "id": "T31",
       "milestone": "M5",
       "title": "Chạy bộ AT07/11/12/13, cập nhật runbook và checklist security.",
-      "status": "todo",
+      "status": "partially_verified",
       "priority": "P0",
       "evidence": []
     },
@@ -864,9 +939,12 @@
       "id": "T34",
       "milestone": "M6",
       "title": "Chuyển cấu hình/secret riêng, pull image hoặc build trên host phù hợp, migrate/seed kiểm soát, khởi động stack.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T35",
@@ -881,9 +959,12 @@
       "id": "T36",
       "milestone": "M6",
       "title": "Chạy smoke đặt/xác nhận, metrics/log, volume, backup/restore; kiểm tra sau restart stack và reboot host khi phù hợp.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T37",
@@ -898,9 +979,12 @@
       "id": "T38",
       "milestone": "M6",
       "title": "Ghi biên bản nghiệm thu localhost: phiên bản, URL, kiểm thử và lỗi còn lại",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
     },
     {
       "id": "T39",
@@ -943,18 +1027,11 @@
       "evidence": []
     }
   ],
-  "open_inputs": [
-    {
-      "id": "WSL",
-      "item": "Người dùng tự chạy scripts/setup-wsl-admin.ps1 bằng Administrator; có thể cần restart Windows",
-      "status": "needs_input"
-    }
-  ],
+  "open_inputs": [],
   "risks": [
-    "Cửa sổ 24 giờ cho project chưa có code và Docker được kiểm chứng",
     "Promtail đã EOL nhưng đề yêu cầu",
     "Ảnh/kết quả báo cáo mẫu không phải minh chứng cá nhân",
-    "cAdvisor có thể không phân biệt container rõ trên Docker Desktop"
+    "Báo cáo Word và push GitHub chưa hoàn tất; chưa chạy kiểm thử tải dài hạn hoặc quét toàn bộ image."
   ],
   "deliverables": [
     "docs/01_TONG_QUAN_DU_AN.md",
@@ -973,8 +1050,8 @@
     },
     "postgres_integration": {
       "status": "passed",
-      "database": "PostgreSQL 17 native on Windows",
-      "scope": "application only",
+      "database": "PostgreSQL 17 Docker Compose",
+      "scope": "HTTP through Nginx localhost:8080",
       "additional_checks": [
         "admin page render and filter",
         "invalid unicode CSRF rejected"
@@ -982,8 +1059,8 @@
     },
     "compose_config": "passed",
     "browser_booking_preview": "passed",
-    "docker_stack": "not_run",
-    "backup_restore_compose": "not_run",
+    "docker_stack": "passed_15_checks",
+    "backup_restore_compose": "passed",
     "report_docx": "not_created",
     "registry_images": {
       "status": "passed",
@@ -991,7 +1068,10 @@
       "record": "infra/images.lock.json"
     },
     "backup_restore_native": "not_available_in_minimal_test_binaries",
-    "last_engine_check": "2026-10-24 01:37 UTC+7: Docker Desktop unable to start; WSL not installed"
+    "last_engine_check": "2026-10-24 02:10 UTC+7: Engine 29.9.2 running; WSL 3.0.3.0",
+    "persistence_restart": "passed",
+    "stack_evidence": "docs/evidence/stack-verification.json",
+    "restore_evidence": "docs/evidence/persistence-restore.json"
   },
   "scope_change": {
     "at": "2026-10-24",
