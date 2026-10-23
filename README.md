@@ -26,7 +26,7 @@ docker compose ps
 
 | Giao diện | Địa chỉ mặc định | Tài khoản |
 | --- | --- | --- |
-| Website | http://localhost:8080 | Khách không cần đăng nhập |
+| Website | http://localhost:8080 | Xem công khai; đăng ký/đăng nhập để đặt lịch |
 | Admin website | http://localhost:8080/admin | ADMIN_USERNAME và ADMIN_PASSWORD trong .env |
 | pgAdmin | http://localhost:5050 | PGADMIN_DEFAULT_EMAIL và PGADMIN_DEFAULT_PASSWORD |
 | Grafana | http://localhost:3001/d/appointment-local | GRAFANA_ADMIN_USER và GRAFANA_ADMIN_PASSWORD |
@@ -40,14 +40,17 @@ Container image và Node base image đã pin digest **Linux/amd64**, được ki
 
 ## Dùng thử nghiệp vụ
 
-1. Mở trang chủ, chọn một trong ba dịch vụ và ngày trong 14 ngày tới, chọn giờ trống.
-2. Nhập họ tên/số điện thoại demo và gửi. Ghi lại mã lịch cùng token riêng; token chỉ hiển thị lần đầu.
-3. Đăng nhập admin, lọc lịch và xác nhận hoặc hủy. Chỉ xác nhận/hủy trước giờ bắt đầu; chỉ hoàn thành lịch đã xác nhận sau giờ kết thúc.
-4. Tra cứu bằng token ở trang chủ; người biết token có thể xem/hủy lịch đó. Không chia sẻ token.
+1. Mở `/register`, tạo tài khoản khách bằng tên, số điện thoại, email và mật khẩu ít nhất 12 ký tự. Đăng nhập tại `/login`; session được đổi sau xác thực.
+2. Chọn dịch vụ, chuyên viên tư vấn, ngày trong 14 ngày tới và khung giờ còn trống. Liên hệ lấy từ tài khoản đã đăng nhập, server không tin thông tin định danh gửi từ trình duyệt.
+3. Gửi yêu cầu: lịch thuộc tài khoản khách, gắn chuyên viên của slot và ở trạng thái pending. Vào `/account` để xem “Lịch hẹn của tôi”.
+4. Quản trị viên vào `/admin/login`, tiếp nhận và xác nhận lịch với chuyên viên được chọn. Khách xem trạng thái cập nhật trong tài khoản, có thể hủy trước giờ bắt đầu.
+5. Chỉ admin được xác nhận hoặc hoàn tất; chỉ hoàn tất sau giờ kết thúc. Khách không được xem/hủy lịch của tài khoản khác bằng ID.
 
-MVP có một nguồn lực, slot 30 phút và dịch vụ/slot seed. Chưa có CRUD danh mục đầy đủ, email/SMS, thanh toán, barcode, CSV, đổi lịch hoặc đồng bộ lịch ngoài. Không suy ra tính năng đã làm từ các nút trong báo cáo mẫu.
+Mô hình: khách hàng đặt tư vấn với một chuyên viên của đơn vị Mạnh Consulting. Có ba chuyên viên mẫu, mỗi người có lịch độc lập; một người không được có slot chồng lấn nhưng hai người có thể nhận khách cùng giờ. Cùng một slot chỉ có một lịch đang giữ. Admin đại diện đơn vị điều phối/xác nhận; chưa có tài khoản đăng nhập riêng cho nhân viên.
 
-Migration tạo schema/role và seed idempotent; rerun migration để bổ sung các slot tương lai khi hết 14 ngày. Dữ liệu lịch cũ được giữ. Ràng buộc PostgreSQL chống slot chồng nhau và đặt trùng; transaction xử lý nhất quán cả khách hàng/lịch/audit. Session admin nằm trong PostgreSQL, có CSRF, cookie HttpOnly/SameSite và rate limit.
+Migration v2 thêm customer_accounts, staff, liên kết account_id và staff_id, giữ các bản ghi cũ. Lịch cũ chưa có tài khoản không tự gán theo email vì email chưa xác minh; vẫn tra cứu bằng token cũ. Tài khoản khách chưa có xác minh email, quên mật khẩu hoặc sửa hồ sơ. Dịch vụ/nhân viên/slot dùng seed, chưa có CRUD đầy đủ. Chưa có email/SMS, thanh toán, barcode, CSV, đổi lịch hoặc đồng bộ lịch ngoài.
+
+Migration tạo schema/role và seed idempotent; rerun migration để bổ sung các slot tương lai khi hết 14 ngày. Dữ liệu lịch cũ được giữ. Ràng buộc PostgreSQL chống slot chồng nhau và đặt trùng; transaction xử lý nhất quán cả khách hàng/lịch/audit. Session khách/admin nằm trong PostgreSQL, có CSRF, cookie HttpOnly/SameSite và rate limit.
 
 ## Kiểm thử và nghiệm thu
 
@@ -60,7 +63,7 @@ npm.cmd run smoke
 node scripts/verify-stack.js
 ```
 
-Integration test dùng dữ liệu giả và lưu lịch cancelled trong DB để giữ lịch sử. Kiểm tra cuộc đua hai request, idempotency, validation, token riêng, admin auth, xác nhận, logout/CSRF và route metrics bị chặn ở Nginx. Chạy trên stack demo, không dùng DB có dữ liệu người dùng thật.
+Integration test tạo tài khoản/dữ liệu giả, giữ lịch sử trong DB và cố gắng hủy lịch thử sau mỗi kịch bản. Không dùng email kiểm thử để nhận thư. Kiểm tra đăng ký/đăng nhập/logout khách, quyền sở hữu lịch, hai chuyên viên cùng giờ, cuộc đua hai request, idempotency, validation, token riêng, admin auth, xác nhận, logout/CSRF và route metrics bị chặn ở Nginx. Chạy trên stack demo, không dùng DB có dữ liệu người dùng thật.
 
 `verify-stack.js` kiểm tra engine, config, Nginx, UID, DB, exporter, targets, dashboard và 3 LogQL; kết quả ghi vào `docs/evidence/stack-verification.json`. Chờ Prometheus có ít nhất hai chu kỳ scrape và Promtail chuyển log rồi kiểm tra; No data không có nghĩa là đạt.
 
@@ -101,7 +104,7 @@ docker compose stop
 docker compose up -d --wait
 ```
 
-`stop/start` hoặc `down/up` giữ named volume; **không dùng `docker compose down -v`** nếu cần dữ liệu. Khi sửa config Nginx, kiểm tra `docker compose exec nginx nginx -t` rồi reload; khi đổi image/app, build và up lại đúng service. Không chỉnh dữ liệu test cũ thành kết quả bài nộp.
+`stop/start` hoặc `down/up` giữ named volume; **không dùng `docker compose down -v`** nếu cần dữ liệu. Khi sửa config Nginx, kiểm tra `docker compose exec nginx nginx -t` rồi reload; khi đổi image/app, build và up lại đúng service rồi chạy `docker compose exec nginx nginx -s reload` để cập nhật DNS upstream nếu IP app đổi. Không chỉnh dữ liệu test cũ thành kết quả bài nộp.
 
 ## Trạng thái thực tế và hồ sơ
 

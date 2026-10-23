@@ -1,6 +1,6 @@
 # Phân tích yêu cầu hệ thống đặt lịch hẹn
 
-Ngày lập: 24/10/2026. Cập nhật: đang triển khai localhost; ứng dụng đã qua kiểm thử với PostgreSQL thật, hạ tầng Compose chưa nghiệm thu.
+Ngày lập: 24/10/2026. Cập nhật: localhost đã nghiệm thu; mở rộng tài khoản khách và nhiều chuyên viên đã qua integration. Đặc tả triển khai hiện tại xem [nghiệp vụ v2](06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md); các phần CRUD trong thiết kế bên dưới vẫn chưa triển khai đầy đủ.
 
 > Cập nhật phạm vi 24/10/2026: người dùng đã bỏ VPS. Mục tiêu duy nhất là chạy ổn định toàn bộ stack Docker Compose trên localhost. Các phần VPS/domain trong nội dung phân tích lịch sử không còn là yêu cầu; xem README gốc, kế hoạch local và trạng thái thực tế.
 
@@ -21,12 +21,12 @@ S01 là file đề 40; S02 là báo cáo mẫu; S03–S11 là chapter01–09 the
 | Role DB migration | Tạo/sửa schema theo migration | Chỉ dùng khi triển khai migration; không dùng cho request web |
 | Role DB monitoring | Đọc thống kê PostgreSQL cần cho exporter | Không đọc dữ liệu khách hàng nếu không cần |
 
-Đăng nhập khách bằng tài khoản không thuộc MVP. Mã đặt lịch là mã tham chiếu; token ngẫu nhiên riêng mới là bí mật tra cứu. Lưu hash token; không đưa token vào query string/access log. Tra cứu bằng POST hoặc cơ chế không ghi token vào log; trả thông báo chung khi tra cứu sai để hạn chế dò dữ liệu.
+Theo yêu cầu mở rộng của người dùng, khách cần đăng ký/đăng nhập trước khi đặt mới. Khách xem/hủy lịch của mình trong tài khoản; token chỉ còn phục vụ tương thích lịch cũ. Mã đặt lịch là mã tham chiếu; token ngẫu nhiên riêng mới là bí mật tra cứu. Lưu hash token; không đưa token vào query string/access log. Tra cứu bằng POST hoặc cơ chế không ghi token vào log; trả thông báo chung khi tra cứu sai để hạn chế dò dữ liệu.
 
 ## 2 Luồng nghiệp vụ chính
 
-1. Admin tạo dịch vụ và các khung giờ trong tương lai.
-2. Khách chọn dịch vụ và ngày; server trả các slot mở, phù hợp dịch vụ và chưa có lịch đang giữ.
+1. Hệ thống seed dịch vụ/chuyên viên/khung giờ tương lai; khách đăng ký hoặc đăng nhập. CRUD quản trị đầy đủ còn là thiết kế chưa thực hiện.
+2. Khách chọn dịch vụ, chuyên viên và ngày; server trả các slot mở, phù hợp dịch vụ và chưa có lịch đang giữ.
 3. Khách chọn slot, nhập tên và ít nhất một thông tin liên hệ hợp lệ; gửi form một lần bằng khóa idempotency.
 4. Server xác thực input, khóa/kiểm tra slot trong transaction; tạo customer và appointment `pending`; commit thành công mới trả mã/token.
 5. Admin xác nhận `pending → confirmed`; khách có thể xem trạng thái bằng token riêng.
@@ -70,7 +70,7 @@ Không yêu cầu xóa khách hàng trong demo. Dịch vụ đã có lịch ch�
 - Một slot có tối đa một lịch `pending` hoặc `confirmed`; lịch `completed` giữ lịch sử sử dụng slot. Slot hoàn thành đã ở quá khứ nên không thể đặt lại.
 - Kiểm tra ở tầng DB, không chỉ vô hiệu hóa nút giao diện. Dùng unique index trên `slot_id` cho trạng thái `pending`, `confirmed`, `completed`; lịch cancelled không nằm trong index.
 - Chống slot chồng lấn trên cùng `resource_id` bằng exclusion constraint trên khoảng thời gian `[start_at, end_at)` cho slot mở hoặc transaction khóa tài nguyên khi tạo slot. Ưu tiên constraint PostgreSQL; migration cần tạo extension `btree_gist` bằng role phù hợp.
-- Một nguồn lực mặc định, dung lượng 1; slot thuộc một dịch vụ. Hai dịch vụ khác nhau cũng không được có slot trùng nhau trên cùng nguồn lực.
+- Nhiều chuyên viên, mỗi người có dung lượng 1; slot thuộc một dịch vụ và một chuyên viên. Hai dịch vụ không được chồng giờ trên cùng chuyên viên; hai chuyên viên khác nhau có thể nhận lịch cùng giờ.
 - `start_at < end_at`; thời lượng slot khớp snapshot thời lượng dịch vụ khi mở slot. Lịch mới phải bắt đầu trong tương lai và slot chưa bị khóa.
 - Thời gian lưu bằng `timestamptz`; hiển thị theo `Asia/Ho_Chi_Minh` (UTC+7), cùng offset môi trường người dùng hiện tại. Không lưu giờ dạng chuỗi không timezone. Kiểm thử ranh giới ngày lúc gần nửa đêm.
 - Chỉ admin được xác nhận/hoàn tất. Tất cả trạng thái phải qua service nghiệp vụ thống nhất và transaction.

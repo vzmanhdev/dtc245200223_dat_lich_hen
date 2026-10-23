@@ -8,7 +8,8 @@
     "course": "Triển khai và Quản trị Hệ thống Phần mềm",
     "phase": "localhost_verified_report_pending",
     "application_implemented": true,
-    "deployment_verified": true
+    "deployment_verified": true,
+    "business_model": "Consulting organization with multiple consultants; customers have accounts; admin confirms appointments"
   },
   "student": {
     "full_name": "Nguyễn Văn Mạnh",
@@ -302,6 +303,12 @@
       "CI/CD",
       "Alertmanager",
       "Alloy vận hành dài hạn"
+    ],
+    "implemented_extension": [
+      "customer accounts",
+      "personal appointment history/cancellation",
+      "multiple consultant availability",
+      "consultant selection"
     ]
   },
   "rubric": [
@@ -1043,7 +1050,8 @@
     "docs/project_data.json",
     "README.md",
     "docs/TRANG_THAI_LOCALHOST.md",
-    "compose.yaml"
+    "compose.yaml",
+    "docs/06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md"
   ],
   "verification": {
     "unit_tests": {
@@ -1073,7 +1081,35 @@
     "last_engine_check": "2026-10-24 02:10 UTC+7: Engine 29.9.2 running; WSL 3.0.3.0",
     "persistence_restart": "passed",
     "stack_evidence": "docs/evidence/stack-verification.json",
-    "restore_evidence": "docs/evidence/persistence-restore.json"
+    "restore_evidence": "docs/evidence/persistence-restore.json",
+    "customer_accounts": {
+      "status": "passed",
+      "integration_scenarios": 2,
+      "checks": [
+        "registration/login/logout",
+        "session rotation and CSRF",
+        "ownership isolation",
+        "same-time bookings across different staff",
+        "duplicate slot rejection"
+      ]
+    },
+    "backup_restore_v2": {
+      "status": "passed",
+      "backup": "backups/appointment-20261024-044149.dump",
+      "restored_database": "restore_verify_20261024044152",
+      "schema_versions": [
+        1,
+        2
+      ],
+      "evidence": "docs/evidence/v2-restore.json"
+    },
+    "browser_customer_booking": {
+      "status": "passed",
+      "booking_code": "MH-64FD1BEF3C10",
+      "consultant": "Trần Thu Hà",
+      "final_status": "confirmed",
+      "evidence": "docs/evidence/customer-account-confirmed.png"
+    }
   },
   "scope_change": {
     "at": "2026-10-24",
