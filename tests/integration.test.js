@@ -55,7 +55,7 @@ test('real PostgreSQL booking, concurrent collision, idempotency, private lookup
     const lookup=await post('/api/appointments/lookup',{token:booked.token},guest);const appt=await lookup.json();
     assert.equal((await post(`/api/admin/appointments/${appt.id}/status`,{status:'confirmed'},guest)).status,401);
     const login=await browser();
-    const loginResponse=await fetch(base+'/admin/login',{method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded',Cookie:login.cookie},body:new URLSearchParams({_csrf:login.csrf,username:process.env.ADMIN_USERNAME || 'manh',password:process.env.ADMIN_PASSWORD})});
+    const loginResponse=await fetch(base+'/login',{method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded',Cookie:login.cookie},body:new URLSearchParams({_csrf:login.csrf,email:process.env.ADMIN_USERNAME,password:process.env.ADMIN_PASSWORD})});
     assert.equal(loginResponse.status,302);
     const adminCookie=loginResponse.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ');
     const adminCsrf=await(await fetch(base+'/api/csrf',{headers:{Cookie:adminCookie}})).json();const admin={cookie:adminCookie,csrf:adminCsrf.csrf};
@@ -66,7 +66,7 @@ test('real PostgreSQL booking, concurrent collision, idempotency, private lookup
     assert.equal((await post('/api/appointments',body(0),guest)).status,422);
     const unicodeCsrf=await fetch(base+'/api/appointments',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json',Cookie:guest.cookie,'X-CSRF-Token':'é'.repeat(64)},body:JSON.stringify(body(slots[1].id))});assert.equal(unicodeCsrf.status,403);
     const noCsrf=await fetch(base+'/api/appointments',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json',Cookie:guest.cookie},body:JSON.stringify(body(slots[1].id))});assert.equal(noCsrf.status,403);
-    const logout=await fetch(base+'/admin/logout',{method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded',Cookie:admin.cookie},body:new URLSearchParams({_csrf:admin.csrf})});assert.equal(logout.status,302);
+    const logout=await fetch(base+'/logout',{method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded',Cookie:admin.cookie},body:new URLSearchParams({_csrf:admin.csrf})});assert.equal(logout.status,302);
     assert.equal((await post(`/api/admin/appointments/${appt.id}/status`,{status:'cancelled'},admin)).status,401);
     if(process.env.TEST_DIRECT_APP!=='true')for(const endpoint of ['/metrics','/health/ready','/stub_status'])assert.equal((await fetch(base+endpoint)).status,404);
     const page=await fetch(base);assert.equal(page.headers.get('x-content-type-options'),'nosniff');assert.equal(page.headers.get('x-frame-options'),'SAMEORIGIN');

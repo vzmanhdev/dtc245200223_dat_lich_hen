@@ -13,11 +13,14 @@ CREATE TABLE IF NOT EXISTS staff(
  full_name varchar(100) UNIQUE NOT NULL, title varchar(120) NOT NULL,
  bio text NOT NULL, active boolean NOT NULL DEFAULT true
 );
+DO $seed$ BEGIN
+IF NOT EXISTS(SELECT 1 FROM schema_migrations WHERE version=2) THEN
 INSERT INTO staff(full_name,title,bio) VALUES
  ('Nguyễn Minh An','Chuyên viên tư vấn','Tư vấn công nghệ, giải pháp phần mềm và định hướng dự án.'),
  ('Trần Thu Hà','Chuyên viên tư vấn','Đồng hành cùng khách hàng trong lựa chọn giải pháp và hỗ trợ kỹ thuật.'),
  ('Lê Hoàng Nam','Chuyên viên tư vấn','Hỗ trợ triển khai, vận hành và giải đáp các vấn đề công nghệ.')
  ON CONFLICT(full_name) DO NOTHING;
+END IF; END $seed$;
 ALTER TABLE time_slots ADD COLUMN IF NOT EXISTS staff_id integer NOT NULL DEFAULT 1 REFERENCES staff(id);
 DO $$
 DECLARE item record;

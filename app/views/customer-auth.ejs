@@ -1,7 +1,8 @@
 <%- include('partials/head',{title:mode==='register'?'Tạo tài khoản':'Đăng nhập'}) %>
 <main class="login-layout container">
  <div class="login-intro"><p class="eyebrow">MẠNH CONSULTING · TƯ VẤN CÔNG NGHỆ</p><h1>Cuộc hẹn của bạn,<br>trong <em>tầm tay.</em></h1><p>Chọn chuyên viên phù hợp, đặt giờ tư vấn và theo dõi xác nhận trong tài khoản của bạn.</p><a class="text-link" href="/">← Khám phá dịch vụ</a></div>
- <section class="form-card login-card"><%- include('partials/login-roles',{role:'customer'}) %><p class="eyebrow">KHÔNG GIAN KHÁCH HÀNG</p><h2><%= mode==='register'?'Tạo tài khoản.':'Chào mừng trở lại.' %></h2>
+ <section class="form-card login-card"><p class="eyebrow"><%= mode==='register'?'TÀI KHOẢN KHÁCH HÀNG':'ĐĂNG NHẬP HỆ THỐNG' %></p><h2><%= mode==='register'?'Tạo tài khoản.':'Chào mừng trở lại.' %></h2>
+ <% if(mode==='login'){ %><p class="muted">Dùng email và mật khẩu của bạn. Hệ thống sẽ mở đúng không gian theo quyền tài khoản.</p><% } %>
  <% if(error){ %><p class="form-error" role="alert"><%= error %></p><% } %>
  <form method="post" action="/<%= mode %>"><input type="hidden" name="_csrf" value="<%= csrf %>">
  <% if(mode==='register'){ %><label>Họ và tên<input name="fullName" autocomplete="name" minlength="2" maxlength="100" required></label><label>Số điện thoại<input name="phone" type="tel" autocomplete="tel" minlength="9" maxlength="20" required></label><% } %>

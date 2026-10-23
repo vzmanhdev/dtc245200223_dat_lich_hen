@@ -1,0 +1,3 @@
+<nav class="admin-tabs" aria-label="Quản trị hệ thống">
+ <% [['appointments','/admin','Lịch hẹn'],['services','/admin/services','Dịch vụ'],['staff','/admin/staff','Nhân viên'],['slots','/admin/slots','Khung giờ'],['customers','/admin/customers','Khách hàng']].forEach(([key,url,label])=>{ %><a href="<%= url %>" <%- section===key?'aria-current="page"':'' %>><%= label %></a><% }) %>
+</nav>
