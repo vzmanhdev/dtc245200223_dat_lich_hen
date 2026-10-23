@@ -50,9 +50,12 @@ test('real PostgreSQL booking, concurrent collision, idempotency, private lookup
     assert.equal(loginResponse.status,302);
     const adminCookie=loginResponse.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ');
     const adminCsrf=await(await fetch(base+'/api/csrf',{headers:{Cookie:adminCookie}})).json();const admin={cookie:adminCookie,csrf:adminCsrf.csrf};
+    const adminPage=await fetch(base+'/admin',{headers:{Cookie:adminCookie}});assert.equal(adminPage.status,200);assert.ok((await adminPage.text()).includes(booked.bookingCode));
+    const filtered=await fetch(base+'/admin?status=pending',{headers:{Cookie:adminCookie}});assert.equal(filtered.status,200);
     assert.equal((await post(`/api/admin/appointments/${appt.id}/status`,{status:'confirmed'},admin)).status,200);
     assert.equal((await post(`/api/admin/appointments/${appt.id}/status`,{status:'completed'},admin)).status,409);
     assert.equal((await post('/api/appointments',{...body(slots[1].id),fullName:''},guest)).status,422);
+    const unicodeCsrf=await fetch(base+'/api/appointments',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json',Cookie:guest.cookie,'X-CSRF-Token':'é'.repeat(64)},body:JSON.stringify(body(slots[1].id))});assert.equal(unicodeCsrf.status,403);
     const noCsrf=await fetch(base+'/api/appointments',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json',Cookie:guest.cookie},body:JSON.stringify(body(slots[1].id))});assert.equal(noCsrf.status,403);
     const logout=await fetch(base+'/admin/logout',{method:'POST',redirect:'manual',headers:{'Content-Type':'application/x-www-form-urlencoded',Cookie:admin.cookie},body:new URLSearchParams({_csrf:admin.csrf})});assert.equal(logout.status,302);
     assert.equal((await post(`/api/admin/appointments/${appt.id}/status`,{status:'cancelled'},admin)).status,401);
