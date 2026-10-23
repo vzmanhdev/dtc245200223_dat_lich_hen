@@ -87,10 +87,12 @@ services:
   nginx:
     <<: *safe
     image: nginxinc/nginx-unprivileged:stable-alpine@sha256:e2a8fca8aa356d66159aaf8a877a9c126773635adf210503eefaaeaffeed6ad7
+    command: ["sh", "-c", "sh /etc/nginx/rotate-logs.sh & exec nginx -g 'daemon off;'"]
     ports: ["127.0.0.1:${WEB_PORT:-8080}:8080"]
     volumes:
       - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - nginx_logs:/logs
+      - ./infra/nginx/rotate-logs.sh:/etc/nginx/rotate-logs.sh:ro
     networks: [frontend, monitoring]
     read_only: true
     tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
@@ -128,20 +130,6 @@ services:
       start_period: 45s
       retries: 6
     mem_limit: 512m
-
-  nginx-log-rotate:
-    <<: *safe
-    image: busybox:1.37.0@sha256:66a6306db78bf2dbf3487f293aa8d6990d8e506fdffab9cc43fe422becf886e4
-    user: "101:101"
-    pid: service:nginx
-    network_mode: none
-    command: ["sh", "-c", "while sleep 60; do if [ -f /logs/access.log ] && [ $$(wc -c < /logs/access.log) -gt 10485760 ]; then [ ! -f /logs/access.log.1 ] || mv /logs/access.log.1 /logs/access.log.2; mv /logs/access.log /logs/access.log.1; kill -USR1 1; fi; done"]
-    volumes: ["nginx_logs:/logs"]
-    read_only: true
-    cap_drop: [ALL]
-    depends_on:
-      nginx: {condition: service_healthy}
-    mem_limit: 16m
 
   postgres-exporter:
     <<: *safe

@@ -14,6 +14,7 @@ const auth='Basic '+Buffer.from(`${process.env.GRAFANA_ADMIN_USER}:${process.env
 const promQuery=async query=>{const d=await json(prom+'/api/v1/query?query='+encodeURIComponent(query));assert.equal(d.status,'success');return d.data.result;};
 await check('Docker Engine',()=>command(['info','--format','{{.ServerVersion}}']));
 await check('Compose configuration',()=>command(['compose','config','--quiet']));
+await check('All long-running services active',()=>{const rows=command(['compose','ps','-a','--format','{{.Service}}|{{.State}}|{{.ExitCode}}']).split('\n');for(const row of rows){const [service,state,exit]=row.split('|');if(['migrate','log-init'].includes(service)){assert.equal(state,'exited',service);assert.equal(exit,'0',service);}else assert.equal(state,'running',service+' not running');}const expected=Object.keys(JSON.parse(command(['compose','config','--format','json'])).services);for(const name of expected)assert.ok(rows.some(row=>row.startsWith(name+'|')),name+' missing');return rows.length+' services checked';});
 await check('Nginx syntax',()=>command(['compose','exec','-T','nginx','nginx','-t']));
 await check('App non-root',()=>{const uid=command(['compose','exec','-T','app','id','-u']);assert.notEqual(uid,'0');return uid;});
 await check('App readiness / DB',()=>command(['compose','exec','-T','app','node','-e',"fetch('http://127.0.0.1:3000/health/ready').then(async r=>{console.log(await r.text());process.exit(r.ok?0:1)})"]));
