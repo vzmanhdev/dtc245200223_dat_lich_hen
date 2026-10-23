@@ -1,3 +1,5 @@
+> Cập nhật v3: đăng nhập chung `/login`; CRUD quản trị dịch vụ/nhân viên/khung giờ/khách hàng đã triển khai. Hợp đồng hiện tại và kết quả kiểm thử xem [hướng dẫn v3](07_HUONG_DAN_QUAN_TRI_V3.md). Các endpoint dự kiến trong thiết kế gốc bên dưới có thể khác tên route thực.
+
 # Phân tích yêu cầu hệ thống đặt lịch hẹn
 
 Ngày lập: 24/10/2026. Cập nhật: localhost đã nghiệm thu; mở rộng tài khoản khách và nhiều chuyên viên đã qua integration. Đặc tả triển khai hiện tại xem [nghiệp vụ v2](06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md); các phần CRUD trong thiết kế bên dưới vẫn chưa triển khai đầy đủ.

@@ -18,3 +18,7 @@ Cập nhật 24/10/2026 lúc 02:12 UTC+7. Nguyễn Văn Mạnh · dtc245200223 �
 MVP dùng dịch vụ/slot seed và quản trị trạng thái lịch. Email/SMS, CRUD đầy đủ, CSV, barcode, Calendar và CI/CD chưa thuộc bản chạy này.
 
 Chạy lại: mở Docker Desktop, `powershell -ExecutionPolicy Bypass -File scripts/start.ps1`. Kiểm tra bằng `npm.cmd run test:integration` và `node scripts/verify-stack.js`. Không dùng `down -v` để sửa lỗi.
+
+## Cập nhật quản trị v3
+
+Đã hoàn thiện đăng nhập chung, quản trị dịch vụ/nhân viên/phân công/khung giờ/khách hàng, tạo lịch hàng loạt, snapshot lịch sử và hồ sơ cá nhân. Bộ kiểm thử 4 unit, 3 nhóm integration và 15 kiểm tra stack đạt; đã thử UI, fresh schema, recreate và restore. Việc nộp còn báo cáo Word, ảnh dashboard đầy đủ và diễn tập demo/fresh clone. Chi tiết ở 07_HUONG_DAN_QUAN_TRI_V3.md.

@@ -44,7 +44,7 @@ Khi có khác biệt: ưu tiên S01; dùng chapter để hiểu và triển khai
 | Thông tin cá nhân | Nguyễn Văn Mạnh, MSSV dtc245200223, lớp CNTTK23B; hạn nộp trong 24 giờ kể từ thời điểm trao đổi |
 | Báo cáo | S02 là khung chưa có ảnh; S12 là mẫu có 16 media, không phải minh chứng của project hiện tại |
 
-Định danh chính thức do người dùng xác nhận: `dtc245200223`. Repository: https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git. Môi trường đã chốt: máy cá nhân trước, VPS sau. Tài khoản GitHub hiện là `vzmanhdev`, tên repo có MSSV; cần ghi rõ cách đáp ứng chỉ dẫn đặt tên theo MSSV của giảng viên, không tự tạo tài khoản mới.
+Định danh chính thức do người dùng xác nhận: `dtc245200223`. Repository: https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git. Môi trường cuối theo yêu cầu người dùng: chỉ localhost, bỏ VPS. Tài khoản GitHub hiện là `vzmanhdev`, tên repo có MSSV; cần ghi rõ cách đáp ứng chỉ dẫn đặt tên theo MSSV của giảng viên, không tự tạo tài khoản mới.
 
 ## 3 Phân tích đề bài và điểm số
 

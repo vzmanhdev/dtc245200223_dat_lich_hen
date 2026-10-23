@@ -51,4 +51,4 @@ EV01 Git/README; EV02 Compose và kiến trúc; EV03 UI đặt/xác nhận; EV04
 
 ## Giới hạn cần công khai
 
-HTTP local dùng security headers, chưa TLS; Promtail EOL được giữ theo đề; cAdvisor có ngoại lệ privileged host mounts; app dùng slot seed một nguồn lực. Chưa có vận hành Internet hoặc VPS. Trạng thái mới nhất xem TRANG_THAI_LOCALHOST.md.
+HTTP local dùng security headers, chưa TLS; Promtail EOL được giữ theo đề; cAdvisor có ngoại lệ privileged host mounts; app hỗ trợ nhiều nhân viên, phân công dịch vụ và mở slot qua quản trị; xem hướng dẫn v3. Chưa có vận hành Internet hoặc VPS. Trạng thái mới nhất xem TRANG_THAI_LOCALHOST.md.

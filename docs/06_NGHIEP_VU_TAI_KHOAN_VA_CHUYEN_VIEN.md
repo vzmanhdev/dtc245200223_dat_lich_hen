@@ -1,3 +1,5 @@
+> Tài liệu ghi nhận giai đoạn v2. Hệ thống đã nâng cấp đăng nhập chung và quản trị đầy đủ các đối tượng nghiệp vụ; xem [hướng dẫn v3 hiện tại](07_HUONG_DAN_QUAN_TRI_V3.md).
+
 # Nghiệp vụ hiện tại: đơn vị tư vấn có nhiều chuyên viên
 
 Cập nhật 24/10/2026. Mô hình được người dùng chọn: khách hàng đặt lịch với chuyên viên của đơn vị tư vấn. Quản trị viên điều phối và xác nhận lịch. Phạm vi triển khai vẫn chỉ localhost.

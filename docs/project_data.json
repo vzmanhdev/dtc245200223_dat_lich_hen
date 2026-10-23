@@ -9,7 +9,7 @@
     "phase": "localhost_verified_report_pending",
     "application_implemented": true,
     "deployment_verified": true,
-    "business_model": "Consulting organization with multiple consultants; customers have accounts; admin confirms appointments"
+    "business_model": "Multi-consultant appointment system with unified email login and administrator-managed services, staff, assignments, slots and customers"
   },
   "student": {
     "full_name": "Nguyễn Văn Mạnh",
@@ -23,7 +23,7 @@
     "url": "https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git",
     "owner": "vzmanhdev",
     "local_git_initialized": true,
-    "remote_check": "origin/main verified equal local HEAD 8709311 after authenticated push",
+    "remote_check": "main pushed and synchronized after feature and stability commits",
     "remote_content_verified": true,
     "pushed": true,
     "first_implementation_commit": "08fe70d",
@@ -32,8 +32,11 @@
       "a2d5e5a",
       "726abe3",
       "5bec305",
-      "8709311"
-    ]
+      "8709311",
+      "fb4e5d6",
+      "7d23576"
+    ],
+    "latest_feature_commit": "7d23576"
   },
   "deadline": {
     "duration_hours": 24,
@@ -70,7 +73,10 @@
     "preview_scope": "Native preview stopped after reboot; use full_stack_url",
     "full_stack_running": true,
     "docker_engine_version": "29.9.2",
-    "wsl_version": "3.0.3.0"
+    "wsl_version": "3.0.3.0",
+    "login_url": "http://localhost:8080/login",
+    "schema_version": 3,
+    "local_admin_configured": true
   },
   "report": {
     "minimum_pages": 10,
@@ -308,7 +314,13 @@
       "customer accounts",
       "personal appointment history/cancellation",
       "multiple consultant availability",
-      "consultant selection"
+      "consultant selection",
+      "unified role-based email login",
+      "service/staff/customer administration",
+      "staff-service assignments",
+      "single and batch availability management",
+      "profile editing",
+      "historical service/staff/price snapshots"
     ]
   },
   "rubric": [
@@ -361,112 +373,160 @@
       "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
       "requirement": "Danh mục dịch vụ: tên, mô tả, thời lượng, trạng thái hoạt động",
       "acceptance": "Khách chỉ thấy dịch vụ active; admin tạo/sửa được; lỗi input có thông báo",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR02",
       "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
       "requirement": "Khung giờ theo dịch vụ, nguồn lực và thời điểm",
       "acceptance": "Chỉ trả slot mở trong tương lai; slot đã giữ không còn đặt được",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR03",
       "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
       "requirement": "Lưu khách hàng và lịch hẹn",
       "acceptance": "Form hợp lệ tạo đúng bản ghi DB; form sai không tạo bản ghi dở dang",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR04",
       "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
       "requirement": "Xác nhận lịch",
       "acceptance": "Admin xác nhận; trạng thái sau reload và tra cứu nhất quán",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR05",
       "source_and_type": "Thiết kế MVP",
       "requirement": "Đăng nhập/đăng xuất admin, session bền vững",
       "acceptance": "Người chưa đăng nhập không truy cập/thay đổi dữ liệu admin; session mất hiệu lực khi logout",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR06",
       "source_and_type": "Thiết kế MVP",
       "requirement": "Quản lý dịch vụ và slot",
       "acceptance": "Không tạo slot chồng thời gian cho cùng nguồn lực; không xóa slot đang có lịch",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR07",
       "source_and_type": "Thiết kế MVP",
       "requirement": "Danh sách lịch và khách liên quan, lọc ngày/trạng thái",
       "acceptance": "Admin lọc đúng, phân trang có giới hạn, không public dữ liệu liên hệ",
-      "status": "todo"
+      "status": "partially_verified",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR08",
       "source_and_type": "Thiết kế MVP",
       "requirement": "Tra cứu/hủy lịch riêng tư",
       "acceptance": "Token đúng xem đúng lịch; token sai không lộ dữ liệu; hủy trước giờ bắt đầu giải phóng slot",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR09",
       "source_and_type": "Thiết kế MVP",
       "requirement": "Chống đặt trùng, idempotency",
       "acceptance": "2 request đồng thời cùng slot: chỉ 1 lịch active; gửi lại cùng khóa không tạo bản sao",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "FR10",
       "source_and_type": "Thiết kế MVP",
       "requirement": "Ghi nhận thay đổi trạng thái",
       "acceptance": "Có thời điểm, trạng thái trước/sau và tác nhân; chuyển sai trạng thái bị từ chối",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "INF01",
       "source_and_type": "S01 P4, P20",
       "requirement": "GitHub source/config/README, ≥3 commit có ý nghĩa",
       "acceptance": "URL repo, commit SHA theo 3 mốc; clone mới dựng được",
-      "status": "todo"
+      "status": "partially_verified",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "INF02",
       "source_and_type": "S01 P5, P14, P45",
       "requirement": "Toàn bộ service chạy Compose, PostgreSQL và pgAdmin",
       "acceptance": "Compose hợp lệ; app kết nối DB; Query Tool xem lịch",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "INF03",
       "source_and_type": "S01 P6, P26",
       "requirement": "Nginx reverse proxy, HTTPS hoặc headers",
       "acceptance": "curl/browser qua Nginx; app không có cổng host trực tiếp",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "OBS01",
       "source_and_type": "S01 P7, P29",
       "requirement": "Prometheus thu thập và Grafana hiển thị container/web/DB",
       "acceptance": "Targets UP; panel có mẫu thật; cấu hình datasource/dashboard lưu Git",
-      "status": "todo"
+      "status": "partially_verified",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "OBS02",
       "source_and_type": "S01 P8, P32",
       "requirement": "Loki và Promtail, 2–3 LogQL",
       "acceptance": "3 query đã chạy với labels thật, ảnh và log mẫu",
-      "status": "todo"
+      "status": "partially_verified",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "SEC01",
       "source_and_type": "S01 P9, P35",
       "requirement": "Ít nhất 3–4 hardening",
       "acceptance": "UID non-root app, db-net, secrets, least privilege DB, header; bằng chứng kiểm tra",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "DOC01",
@@ -480,14 +540,20 @@
       "source_and_type": "Mục tiêu người dùng, Vận hành",
       "requirement": "Deploy toàn bộ stack trên localhost",
       "acceptance": "Website, DB tool, metrics/log và hardening được kiểm chứng local",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "OPS01",
       "source_and_type": "S04/S08/S11, Vận hành",
       "requirement": "Dữ liệu bền vững và backup/restore",
       "acceptance": "Restart không mất dữ liệu; restore sang DB thử nghiệm được",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
     },
     {
       "id": "OPS02",
@@ -683,10 +749,10 @@
       "id": "T08",
       "milestone": "M1",
       "title": "Làm session admin, login/logout, CSRF/rate limit, quản lý dịch vụ/slot/lịch và trạng thái.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0_with_optional_extensions",
       "evidence": [],
-      "reason": "Admin quản lý trạng thái lịch đã kiểm thử; dịch vụ và slot dùng seed, chưa có CRUD đầy đủ."
+      "reason": "Unified login and service/staff/slot/customer administration implemented and integration-tested."
     },
     {
       "id": "T09",
@@ -1051,7 +1117,8 @@
     "README.md",
     "docs/TRANG_THAI_LOCALHOST.md",
     "compose.yaml",
-    "docs/06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md"
+    "docs/06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md",
+    "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
   ],
   "verification": {
     "unit_tests": {
@@ -1109,6 +1176,17 @@
       "consultant": "Trần Thu Hà",
       "final_status": "confirmed",
       "evidence": "docs/evidence/customer-account-confirmed.png"
+    },
+    "management_v3": {
+      "status": "passed",
+      "unit_tests": 4,
+      "integration_scenarios": 3,
+      "stack_checks": 15,
+      "browser_booking": "MH-75CB5CEF4D4C",
+      "browser_final_status": "confirmed",
+      "fresh_schema": "docs/evidence/fresh-schema-v3.json",
+      "recreate": "docs/evidence/v3-recreate.json",
+      "restore": "docs/evidence/v3-restore.json"
     }
   },
   "scope_change": {

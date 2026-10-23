@@ -28,8 +28,12 @@ Tài khoản/mật khẩu nằm trong `.env` trên máy: ADMIN_USERNAME/ADMIN_PA
 
 Mở Docker Desktop rồi chạy `powershell -ExecutionPolicy Bypass -File scripts/start.ps1` khi cần khởi động project. Giữ nguyên `.env` và named volumes. Không chạy `docker compose down -v` vì sẽ xóa dữ liệu.
 
-Báo cáo Word ≥10 trang theo bìa mẫu chưa được tạo; GitHub đã push thành công nhánh main; remote đã đối chiếu khớp commit local. Chưa diễn tập fresh clone, rollback image, kiểm thử tải dài hạn hoặc quét toàn bộ image. Dịch vụ và khung giờ dùng seed; chưa có CRUD đầy đủ. Runtime localhost đã qua kiểm tra; hồ sơ nộp vẫn cần hoàn thiện.
+Báo cáo Word ≥10 trang theo bìa mẫu chưa được tạo; GitHub đã push thành công nhánh main; remote đã đối chiếu khớp commit local. Chưa diễn tập fresh clone, rollback image, kiểm thử tải dài hạn hoặc quét toàn bộ image. Đã có quản trị dịch vụ/nhân viên/khung giờ/khách hàng và đăng nhập chung; xem hướng dẫn v3. Runtime localhost đã qua kiểm tra; hồ sơ nộp vẫn cần hoàn thiện.
 
 ## Nâng cấp nghiệp vụ theo yêu cầu người dùng
 
 Đã bổ sung đăng ký/đăng nhập khách, Lịch hẹn của tôi và chọn chuyên viên tại đơn vị tư vấn. Chống trùng theo từng chuyên viên, liên kết lịch với tài khoản, kiểm thử quyền sở hữu và session đạt. Xem [chi tiết nghiệp vụ v2](06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md). Dữ liệu v1 được giữ lại; nhân viên chưa có tài khoản riêng.
+
+## Nâng cấp v3
+
+Đã thống nhất GET/POST `/login`, cập nhật tài khoản admin theo cấu hình `.env`, thêm quản trị dịch vụ/nhân viên/phân công/khung giờ/khách hàng và hồ sơ khách. 4 unit + 3 nhóm integration + 15 kiểm tra stack đạt. Fresh DB migration, recreate app không reload Nginx và restore schema v3 đã kiểm chứng. Chi tiết tại [hướng dẫn quản trị v3](07_HUONG_DAN_QUAN_TRI_V3.md).

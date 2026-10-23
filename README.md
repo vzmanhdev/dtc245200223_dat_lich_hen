@@ -27,7 +27,8 @@ docker compose ps
 | Giao diện | Địa chỉ mặc định | Tài khoản |
 | --- | --- | --- |
 | Website | http://localhost:8080 | Xem công khai; đăng ký/đăng nhập để đặt lịch |
-| Admin website | http://localhost:8080/admin | ADMIN_USERNAME và ADMIN_PASSWORD trong .env |
+| Đăng nhập chung | http://localhost:8080/login | Email/mật khẩu khách hoặc admin; admin dùng ADMIN_USERNAME/ADMIN_PASSWORD trong .env |
+| Quản trị | http://localhost:8080/admin | Chỉ tài khoản có quyền admin |
 | pgAdmin | http://localhost:5050 | PGADMIN_DEFAULT_EMAIL và PGADMIN_DEFAULT_PASSWORD |
 | Grafana | http://localhost:3001/d/appointment-local | GRAFANA_ADMIN_USER và GRAFANA_ADMIN_PASSWORD |
 | Prometheus | http://localhost:9090/targets | Chỉ bind loopback |
@@ -41,16 +42,22 @@ Container image và Node base image đã pin digest **Linux/amd64**, được ki
 ## Dùng thử nghiệp vụ
 
 1. Mở `/register`, tạo tài khoản khách bằng tên, số điện thoại, email và mật khẩu ít nhất 12 ký tự. Đăng nhập tại `/login`; session được đổi sau xác thực.
-2. Chọn dịch vụ, chuyên viên tư vấn, ngày trong 14 ngày tới và khung giờ còn trống. Liên hệ lấy từ tài khoản đã đăng nhập, server không tin thông tin định danh gửi từ trình duyệt.
+2. Chọn dịch vụ, chuyên viên tư vấn, ngày do đơn vị mở lịch (tối đa 365 ngày) và khung giờ còn trống. Liên hệ lấy từ tài khoản đã đăng nhập, server không tin thông tin định danh gửi từ trình duyệt.
 3. Gửi yêu cầu: lịch thuộc tài khoản khách, gắn chuyên viên của slot và ở trạng thái pending. Vào `/account` để xem “Lịch hẹn của tôi”.
-4. Quản trị viên vào `/admin/login`, tiếp nhận và xác nhận lịch với chuyên viên được chọn. Khách xem trạng thái cập nhật trong tài khoản, có thể hủy trước giờ bắt đầu.
-5. Chỉ admin được xác nhận hoặc hoàn tất; chỉ hoàn tất sau giờ kết thúc. Khách không được xem/hủy lịch của tài khoản khác bằng ID.
+4. Quản trị viên dùng cùng `/login`, tiếp nhận và xác nhận lịch với chuyên viên được chọn. Khách xem trạng thái cập nhật trong tài khoản, có thể hủy trước giờ bắt đầu.
+5. Chỉ admin được xác nhận hoặc hoàn tất; hoàn tất sau giờ kết thúc. Khách hủy trước giờ bắt đầu; admin có thể hủy để xử lý cả lịch quá giờ. Khách không được xem/hủy lịch của tài khoản khác bằng ID.
 
 Mô hình: khách hàng đặt tư vấn với một chuyên viên của đơn vị Mạnh Consulting. Có ba chuyên viên mẫu, mỗi người có lịch độc lập; một người không được có slot chồng lấn nhưng hai người có thể nhận khách cùng giờ. Cùng một slot chỉ có một lịch đang giữ. Admin đại diện đơn vị điều phối/xác nhận; chưa có tài khoản đăng nhập riêng cho nhân viên.
 
-Migration v2 thêm customer_accounts, staff, liên kết account_id và staff_id, giữ các bản ghi cũ. Lịch cũ chưa có tài khoản không tự gán theo email vì email chưa xác minh; vẫn tra cứu bằng token cũ. Tài khoản khách chưa có xác minh email, quên mật khẩu hoặc sửa hồ sơ. Dịch vụ/nhân viên/slot dùng seed, chưa có CRUD đầy đủ. Chưa có email/SMS, thanh toán, barcode, CSV, đổi lịch hoặc đồng bộ lịch ngoài.
+Quản trị có 5 mục: **Lịch hẹn / Dịch vụ / Nhân viên / Khung giờ / Khách hàng**. Admin tạo/sửa/ngừng dịch vụ, phân công nhân viên, mở lịch đơn hoặc hàng loạt, đóng/mở slot, tìm và xác nhận/hủy/hoàn tất lịch, xem lịch sử khách và khóa/mở tài khoản. Khách tự cập nhật hồ sơ. Xem [hướng dẫn nghiệp vụ v3](docs/07_HUONG_DAN_QUAN_TRI_V3.md).
 
-Migration tạo schema/role và seed idempotent; rerun migration để bổ sung các slot tương lai khi hết 14 ngày. Dữ liệu lịch cũ được giữ. Ràng buộc PostgreSQL chống slot chồng nhau và đặt trùng; transaction xử lý nhất quán cả khách hàng/lịch/audit. Session khách/admin nằm trong PostgreSQL, có CSRF, cookie HttpOnly/SameSite và rate limit.
+Migration v3 giữ dữ liệu cũ, thêm phân công nhân viên–dịch vụ, thời lượng dịch vụ linh hoạt và snapshot tên/giá. Lịch cũ chưa có tài khoản không tự gán theo email vì email chưa xác minh; token cũ vẫn dùng được. Seed chỉ dùng khi khởi tạo/nâng cấp v3 lần đầu; sau đó mở lịch qua quản trị, migration không tái tạo lịch đã đóng hoặc nhân viên đổi tên.
+
+`ADMIN_USERNAME` hiện là email admin. Để chủ động cập nhật admin từ `.env`, chạy `docker compose run --rm --no-deps migrate node app/migrate.js --reset-admin`; lệnh này thu hồi phiên admin cũ và vô hiệu các tài khoản admin khác. Không đưa mật khẩu vào mã nguồn/Git. Khởi động thông thường giữ mật khẩu DB hiện có.
+
+Session khách/admin nằm trong PostgreSQL, có CSRF, cookie HttpOnly/SameSite và rate limit. Server xác định vai trò, không nhận quyền admin từ form đăng ký. Ngừng đối tượng thay cho xóa cứng; lịch có khách và lịch sử được bảo vệ bởi validation, FK/constraint và transaction.
+
+Chưa có tài khoản đăng nhập riêng cho nhân viên, xác minh email, quên mật khẩu, email/SMS, thanh toán hay đồng bộ lịch ngoài. Danh sách có bộ lọc và giới hạn số dòng, chưa có phân trang đầy đủ.
 
 ## Kiểm thử và nghiệm thu
 
@@ -104,7 +111,7 @@ docker compose stop
 docker compose up -d --wait
 ```
 
-`stop/start` hoặc `down/up` giữ named volume; **không dùng `docker compose down -v`** nếu cần dữ liệu. Khi sửa config Nginx, kiểm tra `docker compose exec nginx nginx -t` rồi reload; khi đổi image/app, build và up lại đúng service rồi chạy `docker compose exec nginx nginx -s reload` để cập nhật DNS upstream nếu IP app đổi. Không chỉnh dữ liệu test cũ thành kết quả bài nộp.
+`stop/start` hoặc `down/up` giữ named volume; **không dùng `docker compose down -v`** nếu cần dữ liệu. Khi sửa config Nginx, kiểm tra `docker compose exec nginx nginx -t` rồi reload; khi đổi image/app, build và up lại đúng service. Nginx dùng resolver Docker DNS cho upstream động; đã thử recreate app không reload proxy. Không chỉnh dữ liệu test cũ thành kết quả bài nộp.
 
 ## Trạng thái thực tế và hồ sơ
 
