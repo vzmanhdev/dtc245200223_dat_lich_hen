@@ -6,9 +6,11 @@
 
 ## Chạy lần đầu
 
-Cần Docker Desktop chạy **Linux containers**, WSL 2 hoạt động trên Windows và Node.js 24 để tạo cấu hình/kiểm thử. Docker Engine phải ở trạng thái running, không chỉ có Docker CLI. Mạng cần tải npm package và container image ở lần đầu.
+Cần Docker Desktop chạy **Linux containers**, WSL 2 hoạt động trên Windows, Git có OpenSSL và Node.js 24 để tạo cấu hình/kiểm thử. Docker Engine phải ở trạng thái running, không chỉ có Docker CLI. Mạng cần tải npm package và container image ở lần đầu.
 
 ```powershell
+git clone https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git
+cd dtc245200223_dat_lich_hen
 npm.cmd ci --ignore-scripts
 npm.cmd run setup
 powershell -ExecutionPolicy Bypass -File scripts/start.ps1
@@ -78,7 +80,7 @@ Trong lúc chuẩn bị Docker có thể chạy `node scripts/test-native.js` đ
 
 ## Metrics và log
 
-Grafana tự provision hai datasource cùng dashboard 13 panel. Có metrics app/request/status/p95, Nginx connections/request, PostgreSQL up/connections/transactions và CPU/RAM container qua cAdvisor. Nếu cAdvisor trên Docker Desktop thiếu label container, ghi rõ hạn chế và sửa trước khi kết luận đã giám sát được từng container.
+Grafana tự provision hai datasource cùng dashboard 15 panel, gồm Network receive/transmit theo service (B/s). Có metrics app/request/status/p95, Nginx connections/request, PostgreSQL up/connections/transactions và CPU/RAM container qua cAdvisor. Nếu cAdvisor trên Docker Desktop thiếu label container, ghi rõ hạn chế và sửa trước khi kết luận đã giám sát được từng container.
 
 Xem [3 query LogQL và cách tạo dữ liệu](docs/LOGQL.md). App dùng Pino JSON, Nginx access JSON; PostgreSQL có log kết nối/lỗi. Promtail đọc volume chỉ đọc, không nhận Docker socket. Promtail đã EOL nhưng được giữ đúng yêu cầu bài lab localhost.
 
@@ -91,7 +93,7 @@ Xem [3 query LogQL và cách tạo dữ liệu](docs/LOGQL.md). App dùng Pino J
 - Nginx security headers; `/metrics`, `/health/*`, `/stub_status` không public.
 - Truy vấn tham số hóa, render escape HTML, session server-side và CSRF.
 
-cAdvisor là ngoại lệ privileged với read-only host mounts phục vụ lab; Promtail có quyền đọc các volume log read-only, không mount dữ liệu database hoặc Docker socket. Không coi đây là bảo đảm chống mọi container escape. HTTP localhost dùng security headers đáp ứng nhánh yêu cầu đề; chưa triển khai HTTPS/TLS.
+cAdvisor là ngoại lệ privileged với read-only host mounts phục vụ lab; Promtail có quyền đọc các volume log read-only, không mount dữ liệu database hoặc Docker socket. Không coi đây là bảo đảm chống mọi container escape. HTTP localhost có security headers. HTTPS tự ký tại https://localhost:8443, TLS 1.2/1.3; cookie Secure tự động khi đi qua HTTPS. Chứng chỉ có SAN localhost/127.0.0.1, được tạo riêng bởi npm run setup và không commit key. Trình duyệt có thể cảnh báo vì CA tự ký; người dùng tự quyết định tin cậy chứng chỉ local. Không cài CA vào Windows tự động, không tắt xác minh TLS. node scripts/verify-tls.js kiểm tra trực tiếp Nginx trong Docker với CA cụ thể (tránh phần mềm antivirus thay chứng chỉ trên host). Giữ HTTP 8080 cho demo không cần chỉnh kho tin cậy; không bật HSTS cho localhost.
 
 ## Backup và kiểm tra phục hồi
 

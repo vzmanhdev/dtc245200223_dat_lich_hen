@@ -9,3 +9,5 @@ backups
 logs
 tmp
 coverage
+infra/nginx/certs
+reports

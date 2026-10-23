@@ -62,7 +62,7 @@ app.use('/assets',express.static(path.join(root,'public'),{maxAge:'1h'}));
 app.use(session({
   store:new (connectPgSimple(session))({pool,createTableIfMissing:false,pruneSessionInterval:300}),
   name:'appointment.sid', secret:process.env.SESSION_SECRET, resave:false, saveUninitialized:false,
-  cookie:{httpOnly:true,sameSite:'strict',secure:false,maxAge:2*60*60*1000}
+  cookie:{httpOnly:true,sameSite:'strict',secure:'auto',maxAge:2*60*60*1000}
 }));
 app.use(async(req,res,next) => {
  try {

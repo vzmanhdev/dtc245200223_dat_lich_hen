@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
+import './setup-tls.js';
 if (existsSync('.env')) {
   console.log('.env already exists; secrets preserved.');
 } else {
