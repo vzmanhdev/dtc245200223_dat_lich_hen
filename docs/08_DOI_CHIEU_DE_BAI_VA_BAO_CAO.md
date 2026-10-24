@@ -41,3 +41,5 @@ Unit 4/4, integration PostgreSQL thật 3/3 nhóm, stack 16/16 và audit sâu 9/
 S01: đề thực hành đề 40; S02: Bao_Cao_Trien_Khai_He_Thong.docx (48 đoạn, 0 bảng/ảnh nhúng, còn placeholder; SHA256 02c9189f6e9a969c92e76b214a255d133b5261f8e1f9b9198b68a3f6b6149a13). Bìa tham khảo S12 Bao_cao_Appointment_System.docx; không lấy kết quả người khác làm của mình. Cả ba bản gốc được giữ nguyên.
 
 Những hướng mở rộng chưa triển khai: tài khoản riêng cho nhân viên, email xác minh/nhắc lịch, quên mật khẩu, thanh toán, đồng bộ lịch ngoài, phân trang đầy đủ, kiểm thử tải/HA. Đây là giới hạn được ghi trong báo cáo, không phải các chức năng được nhận là đã có.
+
+Bổ sung sau lần quét được người dùng cho phép: Docker Scout image app báo 0 Critical, 13 High trên 6 gói; chưa khắc phục và chưa quét mọi image hạ tầng. Chi tiết: [Biên bản quét](11_KET_QUA_QUET_IMAGE.md).

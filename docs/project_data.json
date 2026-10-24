@@ -1002,7 +1002,7 @@
       "status": "partially_verified",
       "priority": "P0",
       "evidence": [],
-      "reason": "Production npm audit: zero known advisories at check time. Image scan not performed: automatic approval review blocked Docker Scout external metadata/SBOM transmission, pending user permission."
+      "reason": "Production npm audit: zero advisories. App image Scout scan authorized and completed: 0 Critical, 13 High in 6 packages; remediation and remaining infrastructure scans outstanding."
     },
     {
       "id": "T29",
@@ -1165,7 +1165,7 @@
   "open_inputs": [],
   "risks": [
     "Promtail retained for assignment; not a long-term Internet stack recommendation.",
-    "No load/HA test or full container vulnerability scan; Docker Scout external scan awaits user authorization.",
+    "App image Scout scan: 13 High findings remain; full infrastructure image scan and load/HA tests not performed.",
     "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
     "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
   ],
@@ -1183,7 +1183,8 @@
     "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
     "reports/Bao_cao_Appointment_dtc245200223.docx",
     "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
-    "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+    "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md",
+    "docs/11_KET_QUA_QUET_IMAGE.md"
   ],
   "verification": {
     "unit_tests": {
@@ -1267,7 +1268,7 @@
       "remaining": [],
       "limitations": [
         "Promtail retained for assignment; not a long-term Internet stack recommendation.",
-        "No load/HA test or full container vulnerability scan; Docker Scout external scan awaits user authorization.",
+        "App image Scout scan: 13 High findings remain; full infrastructure image scan and load/HA tests not performed.",
         "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
         "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
       ]
@@ -1307,6 +1308,23 @@
       "status": "passed",
       "known_advisories": 0,
       "record": "docs/evidence/npm-audit-final.json"
+    },
+    "container_image_scan": {
+      "status": "completed_with_findings",
+      "authorization": "User changed choice and explicitly allowed Docker Scout metadata/SBOM transmission",
+      "image": "manh-appointment:local",
+      "image_id": "sha256:85087dee5c9a5f3f4956862d309c425951a3f853739ddf4c3d4189f6c60a9508",
+      "packages_indexed": 390,
+      "critical": 0,
+      "high": 13,
+      "vulnerable_packages": 6,
+      "severity_filter": [
+        "critical",
+        "high"
+      ],
+      "infrastructure_images_scanned": false,
+      "remediated": false,
+      "evidence": "docs/11_KET_QUA_QUET_IMAGE.md"
     }
   },
   "scope_change": {
@@ -1319,6 +1337,6 @@
     "https": "https://localhost:8443",
     "guide": "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
     "mandatory_implementation_remaining": [],
-    "optional_external_image_scan": "awaiting_permission"
+    "optional_external_image_scan": "authorized_completed_app_image_findings_open"
   }
 }

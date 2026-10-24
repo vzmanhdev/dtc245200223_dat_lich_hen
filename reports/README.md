@@ -7,3 +7,6 @@ Bìa theo trang đầu `Bao_cao_Appointment_System.docx`; nguồn được giữ
 QA: build bằng Python python-docx/Pillow, cập nhật field và export PDF bằng Microsoft Word đã cài trên máy; rasterize bằng Poppler, xem từng trang PNG. LibreOffice không có trên máy nên renderer mặc định không chạy được; dùng Word làm backend render thay thế. PDF/PNG QA trong `tmp/report-qa/` không phải tài liệu nộp riêng.
 
 Tái tạo tùy chọn: `python scripts/build-report.py` cần Python có python-docx, Pillow, font Windows và file mẫu gốc ở `docx/`. Không cần bước này để chạy ứng dụng từ clone GitHub; DOCX cuối đã có trong repo.
+
+
+Bổ sung sau lần quét được người dùng cho phép: Docker Scout image app báo 0 Critical, 13 High trên 6 gói; chưa khắc phục và chưa quét mọi image hạ tầng. Chi tiết: [Biên bản quét](../docs/11_KET_QUA_QUET_IMAGE.md).
