@@ -1,5 +1,7 @@
 # Hệ thống đặt lịch hẹn trên localhost
 
+[Báo cáo Word 18 trang](reports/Bao_cao_Appointment_dtc245200223.docx) · [Demo và bàn giao](docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md) · [Release/rollback](docs/10_RELEASE_VA_ROLLBACK_LOCAL.md)
+
 Đề 40 · Triển khai và Quản trị Hệ thống Phần mềm. Nguyễn Văn Mạnh · dtc245200223 · CNTTK23B.
 
 Ứng dụng đặt lịch bằng Node.js/Express và PostgreSQL. Toàn bộ môi trường mục tiêu dùng Docker Compose: Nginx, app, PostgreSQL, pgAdmin, Prometheus, Grafana, cAdvisor, Nginx/PostgreSQL exporter, Loki và Promtail. Chỉ chạy trên localhost; không cần VPS hoặc domain.

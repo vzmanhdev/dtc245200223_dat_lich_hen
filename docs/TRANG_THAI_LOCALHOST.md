@@ -1,3 +1,5 @@
+> **Mốc hoàn thiện 24/10/2026:** localhost đã nghiệm thu, báo cáo Word 18 trang, clone sạch toàn stack, HTTPS/Network I/O và rollback đã bổ sung. Xem [đối chiếu hiện tại](08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md) và [demo/bàn giao](09_KICH_BAN_DEMO_VA_BAN_GIAO.md). Các kế hoạch/giới hạn cũ phía dưới là lịch sử, không thay bản đối chiếu mới.
+
 # Trạng thái triển khai localhost
 
 Cập nhật 24/10/2026, 02:12 UTC+7. Toàn bộ stack Docker Compose đã chạy sau khi cài WSL và restart Windows. Phạm vi chỉ localhost.

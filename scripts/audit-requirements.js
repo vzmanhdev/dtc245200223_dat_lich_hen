@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {dockerExecutable} from './docker-executable.js';
@@ -9,7 +9,13 @@ async function check(name,fn){try{const result=await fn();report.checks.push({na
 async function json(url,headers={}){const r=await fetch(url,{headers,signal:AbortSignal.timeout(15000)});if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}
 const web=`http://127.0.0.1:${process.env.WEB_PORT||8080}`,prom=`http://127.0.0.1:${process.env.PROMETHEUS_PORT||9090}`,grafana=`http://127.0.0.1:${process.env.GRAFANA_PORT||3001}`;
 const grafanaHeaders={Authorization:'Basic '+Buffer.from(`${process.env.GRAFANA_ADMIN_USER}:${process.env.GRAFANA_ADMIN_PASSWORD}`).toString('base64')};
-await check('Original report fingerprint',()=>({path:'docx/Bao_Cao_Trien_Khai_He_Thong.docx',sha256:createHash('sha256').update(readFileSync('docx/Bao_Cao_Trien_Khai_He_Thong.docx')).digest('hex')}));
+if(existsSync('docx/Bao_Cao_Trien_Khai_He_Thong.docx')) {
+ await check('Original report fingerprint',()=>{
+  const sha256=createHash('sha256').update(readFileSync('docx/Bao_Cao_Trien_Khai_He_Thong.docx')).digest('hex');
+  if(sha256!=='02c9189f6e9a969c92e76b214a255d133b5261f8e1f9b9198b68a3f6b6149a13')throw new Error('Original template changed');
+  return {path:'docx/Bao_Cao_Trien_Khai_He_Thong.docx',sha256};
+ });
+} else report.checks.push({name:'Original report fingerprint',status:'not_applicable',reason:'Course source documents intentionally excluded from Git; runtime audit remains available on clean clones.'});
 await check('GitHub source and meaningful history',()=>{
  const local=command('git',['rev-parse','HEAD']),remote=command('git',['ls-remote','origin','refs/heads/main']).split(/\s/)[0];if(local!==remote)throw new Error('Local and remote HEAD differ');
  return {head:local,remote_matches:true,commits:Number(command('git',['rev-list','--count','HEAD'])),readme_length:readFileSync('README.md','utf8').length,readme_has_git_clone:/git\s+clone/.test(readFileSync('README.md','utf8'))};
@@ -50,5 +56,5 @@ await check('Actual centralized log sources',async()=>{
 });
 report.compliance_notes=['Technical probes do not certify the final report or every statement in the supplied template.','See docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md for missing deliverables and template differences.'];
 mkdirSync('docs/evidence',{recursive:true});writeFileSync('docs/evidence/requirements-audit.json',JSON.stringify(report,null,2));
-console.log('Deep audit:',report.checks.filter(c=>c.status==='passed').length+'/'+report.checks.length);
+console.log('Deep audit:',report.checks.filter(c=>c.status==='passed').length+'/'+report.checks.filter(c=>c.status!=='not_applicable').length);
 if(report.checks.some(c=>c.status==='failed'))process.exitCode=1;

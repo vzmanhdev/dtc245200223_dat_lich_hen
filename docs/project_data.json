@@ -6,7 +6,7 @@
     "topic_number": 40,
     "name": "Hệ thống đặt lịch hẹn Appointment",
     "course": "Triển khai và Quản trị Hệ thống Phần mềm",
-    "phase": "localhost_verified_report_pending",
+    "phase": "localhost_delivery_ready",
     "application_implemented": true,
     "deployment_verified": true,
     "business_model": "Multi-consultant appointment system with unified email login and administrator-managed services, staff, assignments, slots and customers"
@@ -89,7 +89,11 @@
     "cover_reference": "docx/Bao_cao_Appointment_System.docx",
     "reference_role": "template_only",
     "cover_to_preserve": true,
-    "report_authored": false
+    "report_authored": true,
+    "actual_pages": 18,
+    "path": "reports/Bao_cao_Appointment_dtc245200223.docx",
+    "render_backend": "Installed Microsoft Word + Poppler",
+    "visual_qa": "18 pages reviewed; source cover retained; original reference unchanged"
   },
   "sources": [
     {
@@ -330,43 +334,50 @@
       "id": "R1",
       "name": "GitHub",
       "points": 1.5,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     },
     {
       "id": "R2",
       "name": "Web PostgreSQL pgAdmin",
       "points": 1.5,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     },
     {
       "id": "R3",
       "name": "Nginx",
       "points": 1.5,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     },
     {
       "id": "R4",
       "name": "Prometheus Grafana",
       "points": 1.5,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     },
     {
       "id": "R5",
       "name": "Loki Promtail LogQL",
       "points": 1.5,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     },
     {
       "id": "R6",
       "name": "Hardening",
       "points": 1.5,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     },
     {
       "id": "R7",
       "name": "Tổng thể trình bày",
       "points": 1,
-      "status": "todo"
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
     }
   ],
   "requirements": [
@@ -475,9 +486,11 @@
       "source_and_type": "S01 P4, P20",
       "requirement": "GitHub source/config/README, ≥3 commit có ý nghĩa",
       "acceptance": "URL repo, commit SHA theo 3 mốc; clone mới dựng được",
-      "status": "partially_verified",
+      "status": "verified_localhost",
       "evidence": [
-        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
       ]
     },
     {
@@ -505,9 +518,11 @@
       "source_and_type": "S01 P7, P29",
       "requirement": "Prometheus thu thập và Grafana hiển thị container/web/DB",
       "acceptance": "Targets UP; panel có mẫu thật; cấu hình datasource/dashboard lưu Git",
-      "status": "partially_verified",
+      "status": "verified_localhost",
       "evidence": [
-        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
       ]
     },
     {
@@ -515,9 +530,11 @@
       "source_and_type": "S01 P8, P32",
       "requirement": "Loki và Promtail, 2–3 LogQL",
       "acceptance": "3 query đã chạy với labels thật, ảnh và log mẫu",
-      "status": "partially_verified",
+      "status": "verified_localhost",
       "evidence": [
-        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
       ]
     },
     {
@@ -535,7 +552,12 @@
       "source_and_type": "S01 P10–12, P38",
       "requirement": "Báo cáo ≥10 trang, bìa và hình minh họa",
       "acceptance": "Nội dung đúng đề40, đủ kết quả 6 bước; ảnh thật có chú thích",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
     },
     {
       "id": "DEP01",
@@ -562,7 +584,12 @@
       "source_and_type": "S06, Vận hành",
       "requirement": "Release và rollback có phiên bản",
       "acceptance": "Tag/digest, SHA, backup trước migration và quy trình rollback đã thử",
-      "status": "todo"
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
     }
   ],
   "milestones": [
@@ -650,7 +677,7 @@
       "depends_on": [
         "M6"
       ],
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "BUFFER",
@@ -661,7 +688,7 @@
       "depends_on": [
         "M7"
       ],
-      "status": "todo"
+      "status": "not_needed_for_current_delivery"
     }
   ],
   "tasks": [
@@ -688,9 +715,12 @@
       "id": "T02",
       "milestone": "M0",
       "title": "Khởi tạo Git local; xác nhận identity và remote. Tạo repo GitHub khi đã có tài khoản/định danh được xác nhận.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T03",
@@ -826,9 +856,12 @@
       "id": "T15",
       "milestone": "M2",
       "title": "Chạy AT07/08, cập nhật README và lưu ảnh AT01/DB/Nginx.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T16",
@@ -856,9 +889,12 @@
       "id": "T18",
       "milestone": "M3",
       "title": "Prometheus scrape cấu hình 15 giây, kiểm tra bằng promtool; targets đầy đủ, retention/volume.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T19",
@@ -875,10 +911,12 @@
       "id": "T20",
       "milestone": "M3",
       "title": "Phát traffic demo, xác minh tất cả panel có dữ liệu; kiểm tra label/metric thật thay vì import dashboard rồi để No data.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0",
-      "evidence": [],
-      "reason": "Datasource, 13 panel, exporter và metric container đã kiểm tra; chưa đánh giá trực quan từng panel."
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T21",
@@ -964,7 +1002,7 @@
       "status": "partially_verified",
       "priority": "P0",
       "evidence": [],
-      "reason": "npm audit đã chạy; chưa quét toàn bộ container image."
+      "reason": "Production npm audit: zero known advisories at check time. Image scan not performed: automatic approval review blocked Docker Scout external metadata/SBOM transmission, pending user permission."
     },
     {
       "id": "T29",
@@ -981,18 +1019,23 @@
       "id": "T30",
       "milestone": "M5",
       "title": "Pin release image theo SHA/digest; diễn tập rollback app với schema tương thích và phương án restore khi migration phá tương thích.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0_with_optional_extensions",
-      "evidence": [],
-      "reason": "Đã pin digest; chưa diễn tập rollback image."
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T31",
       "milestone": "M5",
       "title": "Chạy bộ AT07/11/12/13, cập nhật runbook và checklist security.",
-      "status": "partially_verified",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T32",
@@ -1067,48 +1110,64 @@
       "id": "T39",
       "milestone": "M7",
       "title": "Viết báo cáo bám đề40, lấy bố cục bìa đầu S12 và điền Nguyễn Văn Mạnh, dtc245200223, CNTTK23B; thay nội dung/ảnh/số liệu của người khác bằng kết quả thực. S02 chỉ tham khảo bổ sung.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T40",
       "milestone": "M7",
       "title": "Chèn ảnh thật và chú thích, sơ đồ mạng/dữ liệu, cấu hình cốt lõi, 3 LogQL, bảng hardening và kết quả phục hồi.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T41",
       "milestone": "M7",
       "title": "Kiểm tra báo cáo ≥10 trang sau render, mục lục, font, bảng/ảnh và bìa có thông tin thật.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T42",
       "milestone": "M7",
       "title": "Fresh clone/dựng mới theo README; kiểm tra không thiếu file config, image hoặc bước cấp secret.",
-      "status": "todo",
+      "status": "done",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
     },
     {
       "id": "T43",
       "milestone": "M7",
       "title": "Diễn tập demo 10–15 phút; lưu release cuối và đối chiếu rubric 10 điểm.",
-      "status": "todo",
+      "status": "done_script_and_component_rehearsal",
       "priority": "P0",
-      "evidence": []
+      "evidence": [
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md"
+      ],
+      "reason": "Business workflow integration and separate UI/infra checks passed; 10–15 minute presentation guide prepared. No recorded video or live graded presentation claimed."
     }
   ],
   "open_inputs": [],
   "risks": [
-    "Promtail đã EOL nhưng đề yêu cầu",
-    "Ảnh/kết quả báo cáo mẫu không phải minh chứng cá nhân",
-    "Báo cáo Word chưa hoàn tất; chưa chạy kiểm thử tải dài hạn hoặc quét toàn bộ image."
+    "Promtail retained for assignment; not a long-term Internet stack recommendation.",
+    "No load/HA test or full container vulnerability scan; Docker Scout external scan awaits user authorization.",
+    "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
+    "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
   ],
   "deliverables": [
     "docs/01_TONG_QUAN_DU_AN.md",
@@ -1121,7 +1180,10 @@
     "compose.yaml",
     "docs/06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md",
     "docs/07_HUONG_DAN_QUAN_TRI_V3.md",
-    "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md"
+    "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+    "reports/Bao_cao_Appointment_dtc245200223.docx",
+    "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+    "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
   ],
   "verification": {
     "unit_tests": {
@@ -1139,9 +1201,9 @@
     },
     "compose_config": "passed",
     "browser_booking_preview": "passed",
-    "docker_stack": "passed_15_checks",
+    "docker_stack": "passed_16_checks",
     "backup_restore_compose": "passed",
-    "report_docx": "not_created",
+    "report_docx": "rendered_18_pages_visually_reviewed",
     "registry_images": {
       "status": "passed",
       "linux_amd64_images": 12,
@@ -1184,7 +1246,7 @@
       "status": "passed",
       "unit_tests": 4,
       "integration_scenarios": 3,
-      "stack_checks": 15,
+      "stack_checks": 16,
       "browser_booking": "MH-75CB5CEF4D4C",
       "browser_final_status": "confirmed",
       "fresh_schema": "docs/evidence/fresh-schema-v3.json",
@@ -1192,7 +1254,7 @@
       "restore": "docs/evidence/v3-restore.json"
     },
     "requirements_audit": {
-      "status": "completed_with_remaining_deliverables",
+      "status": "core_assignment_deliverables_ready",
       "report": "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
       "stack_checks": 16,
       "deep_probes": 9,
@@ -1202,11 +1264,12 @@
         "034f0e3",
         "78b2991"
       ],
-      "remaining": [
-        "personal Word report >=10 pages",
-        "explicit clone instructions and full fresh-clone rehearsal",
-        "GitHub account naming interpretation",
-        "optional template differences: Network I/O dashboard, HTTPS, all-container logs, host firewall"
+      "remaining": [],
+      "limitations": [
+        "Promtail retained for assignment; not a long-term Internet stack recommendation.",
+        "No load/HA test or full container vulnerability scan; Docker Scout external scan awaits user authorization.",
+        "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
+        "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
       ]
     },
     "log_rotation": {
@@ -1217,10 +1280,45 @@
       "status": "passed_for_new_events_after_fix",
       "record": "docs/evidence/log-ingestion-verification.json",
       "historical_duplicates_preserved": true
+    },
+    "tls": {
+      "status": "passed",
+      "protocol": "TLSv1.3",
+      "secure_cookie": true,
+      "record": "docs/evidence/tls-verification.json"
+    },
+    "clean_clone": {
+      "status": "passed",
+      "commit": "29cb15c",
+      "services": 13,
+      "stack_checks": 16,
+      "isolated_volumes": true,
+      "record": "docs/evidence/clean-clone-verification.json"
+    },
+    "rollback": {
+      "status": "passed",
+      "http": 200,
+      "fixture_rows_preserved": 1,
+      "checksum_matches": true,
+      "record": "docs/evidence/rollback-verification.json",
+      "schema_downgrade_tested": false
+    },
+    "production_dependency_audit": {
+      "status": "passed",
+      "known_advisories": 0,
+      "record": "docs/evidence/npm-audit-final.json"
     }
   },
   "scope_change": {
     "at": "2026-10-24",
     "requested_by_user": "Drop VPS deployment. Run all services stably on localhost first."
+  },
+  "delivery": {
+    "report": "reports/Bao_cao_Appointment_dtc245200223.docx",
+    "web": "http://localhost:8080",
+    "https": "https://localhost:8443",
+    "guide": "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+    "mandatory_implementation_remaining": [],
+    "optional_external_image_scan": "awaiting_permission"
   }
 }

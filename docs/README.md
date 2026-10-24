@@ -1,5 +1,7 @@
 # Hồ sơ phân tích và kế hoạch đề tài đặt lịch hẹn
 
+[Báo cáo Word 18 trang](../reports/Bao_cao_Appointment_dtc245200223.docx) · [Demo/bàn giao](09_KICH_BAN_DEMO_VA_BAN_GIAO.md) · [Release/rollback](10_RELEASE_VA_ROLLBACK_LOCAL.md)
+
 Ngày lập: 24/10/2026. Trạng thái: full stack Docker localhost đã kiểm chứng; đăng nhập chung và quản trị v3 đã triển khai.
 
 Thông tin đã chốt: Nguyễn Văn Mạnh · dtc245200223 · CNTTK23B. Hạn trong 24 giờ, mốc kế hoạch khoảng 00:37 ngày 25/10/2026 (UTC+7). Phạm vi mới: chỉ localhost, bỏ VPS. Repository: https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git. Bìa báo cáo cuối theo trang đầu `docx/Bao_cao_Appointment_System.docx`.
