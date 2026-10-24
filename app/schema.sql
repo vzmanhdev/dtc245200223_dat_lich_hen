@@ -1,0 +1,22 @@
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+CREATE TABLE IF NOT EXISTS schema_migrations(version integer PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS admin_users(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password_hash text NOT NULL, active boolean NOT NULL DEFAULT true);
+CREATE TABLE IF NOT EXISTS services(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, name varchar(100) UNIQUE NOT NULL, description text NOT NULL, duration_minutes integer NOT NULL CHECK(duration_minutes=30), price integer NOT NULL DEFAULT 0 CHECK(price>=0), active boolean NOT NULL DEFAULT true);
+CREATE TABLE IF NOT EXISTS time_slots(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, service_id integer NOT NULL REFERENCES services(id), start_at timestamptz UNIQUE NOT NULL, end_at timestamptz NOT NULL, is_open boolean NOT NULL DEFAULT true, CHECK(end_at=start_at+interval '30 minutes'), EXCLUDE USING gist (tstzrange(start_at,end_at,'[)') WITH &&));
+CREATE TABLE IF NOT EXISTS customers(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, full_name varchar(100) NOT NULL, phone varchar(20) NOT NULL, email varchar(200) NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS appointments(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, booking_code varchar(30) UNIQUE NOT NULL, token_hash char(64) UNIQUE NOT NULL, idempotency_key varchar(80) UNIQUE NOT NULL, request_hash char(64) NOT NULL, customer_id bigint NOT NULL REFERENCES customers(id), slot_id bigint NOT NULL REFERENCES time_slots(id), service_name_snapshot varchar(100) NOT NULL, status varchar(16) NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','confirmed','completed','cancelled')), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
+CREATE UNIQUE INDEX IF NOT EXISTS one_held_booking_per_slot ON appointments(slot_id) WHERE status IN ('pending','confirmed','completed');
+CREATE INDEX IF NOT EXISTS appointment_status_idx ON appointments(status,created_at);
+CREATE TABLE IF NOT EXISTS appointment_events(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, appointment_id bigint NOT NULL REFERENCES appointments(id), from_status varchar(16), to_status varchar(16) NOT NULL, actor_type varchar(16) NOT NULL, actor_admin_id bigint REFERENCES admin_users(id), created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS session(sid varchar PRIMARY KEY, sess json NOT NULL, expire timestamp(6) NOT NULL);
+CREATE INDEX IF NOT EXISTS session_expire_idx ON session(expire);
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+GRANT USAGE ON SCHEMA public TO appointment_app;
+GRANT SELECT ON services,time_slots,admin_users,schema_migrations TO appointment_app;
+-- PostgreSQL requires UPDATE on at least one column for SELECT FOR UPDATE.
+GRANT UPDATE(is_open) ON time_slots TO appointment_app;
+GRANT SELECT,INSERT,UPDATE ON customers,appointments,appointment_events TO appointment_app;
+GRANT SELECT,INSERT,UPDATE,DELETE ON session TO appointment_app;
+GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO appointment_app;
+GRANT pg_monitor TO appointment_monitor;
+INSERT INTO schema_migrations(version) VALUES(1) ON CONFLICT DO NOTHING;
