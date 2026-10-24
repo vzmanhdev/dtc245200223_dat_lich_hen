@@ -1002,7 +1002,7 @@
       "status": "partially_verified",
       "priority": "P0",
       "evidence": [],
-      "reason": "Production npm audit: zero advisories. App image Scout scan authorized and completed: 0 Critical, 13 High in 6 packages; remediation and remaining infrastructure scans outstanding."
+      "reason": "Production dependency audit zero advisories. App image remediation deployed: Scout full-severity scan 0 Critical/High, 1 Medium BusyBox Not Fixed; infrastructure image scans outstanding."
     },
     {
       "id": "T29",
@@ -1165,7 +1165,7 @@
   "open_inputs": [],
   "risks": [
     "Promtail retained for assignment; not a long-term Internet stack recommendation.",
-    "App image Scout scan: 13 High findings remain; full infrastructure image scan and load/HA tests not performed.",
+    "App image: 0 Critical/High, 1 Medium BusyBox Not Fixed remains; infrastructure images not yet scanned.",
     "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
     "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
   ],
@@ -1184,7 +1184,8 @@
     "reports/Bao_cao_Appointment_dtc245200223.docx",
     "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
     "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md",
-    "docs/11_KET_QUA_QUET_IMAGE.md"
+    "docs/11_KET_QUA_QUET_IMAGE.md",
+    "docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md"
   ],
   "verification": {
     "unit_tests": {
@@ -1207,7 +1208,7 @@
     "report_docx": "rendered_18_pages_visually_reviewed",
     "registry_images": {
       "status": "passed",
-      "linux_amd64_images": 12,
+      "linux_amd64_images": 13,
       "record": "infra/images.lock.json"
     },
     "backup_restore_native": "not_available_in_minimal_test_binaries",
@@ -1268,7 +1269,7 @@
       "remaining": [],
       "limitations": [
         "Promtail retained for assignment; not a long-term Internet stack recommendation.",
-        "App image Scout scan: 13 High findings remain; full infrastructure image scan and load/HA tests not performed.",
+        "App image: 0 Critical/High, 1 Medium BusyBox Not Fixed remains; infrastructure images not yet scanned.",
         "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
         "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
       ]
@@ -1310,6 +1311,29 @@
       "record": "docs/evidence/npm-audit-final.json"
     },
     "container_image_scan": {
+      "at": "2026-10-24T00:44:45.816Z",
+      "image_id": "sha256:3340102077cf23cc7d0cc18bca1d0afc32fca3d99a050acb814f260cb596e1e3",
+      "manifest": "sha256:3340102077cf23cc7d0cc18bca1d0afc32fca3d99a050acb814f260cb596e1e3",
+      "status": "deployed_verified",
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 0,
+      "unspecified": 0,
+      "package_count": 141,
+      "all_severities_scanned": true,
+      "unit_tests": 4,
+      "integration_groups": 3,
+      "stack_checks": 16,
+      "tls": "passed",
+      "business_row_counts_preserved": true,
+      "previous_image": "manh-appointment:before-security-20261024",
+      "backup": "backups/appointment-20261024-074318.dump",
+      "remaining": "BusyBox CVE-2025-60876 Medium, Not Fixed in Alpine 3.23 according to Scout",
+      "evidence": "docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md",
+      "infrastructure_images_scanned": false
+    },
+    "container_image_scan_before_remediation": {
       "status": "completed_with_findings",
       "authorization": "User changed choice and explicitly allowed Docker Scout metadata/SBOM transmission",
       "image": "manh-appointment:local",
@@ -1337,6 +1361,6 @@
     "https": "https://localhost:8443",
     "guide": "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
     "mandatory_implementation_remaining": [],
-    "optional_external_image_scan": "authorized_completed_app_image_findings_open"
+    "optional_external_image_scan": "completed_and_13_high_remediated_one_medium_remaining"
   }
 }

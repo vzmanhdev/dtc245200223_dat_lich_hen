@@ -1,3 +1,5 @@
+> **Cập nhật sau khắc phục:** image app mới đã deploy, 13 High → 0; quét mọi severity còn 1 Medium BusyBox chưa có bản vá. Xem [biên bản khắc phục](12_KHAC_PHUC_IMAGE_UNG_DUNG.md). Nội dung quét ban đầu phía dưới là lịch sử.
+
 # Đối chiếu đề 40 và báo cáo triển khai – bản hoàn thiện
 
 Cập nhật 24/10/2026. Phạm vi: Docker Compose trên localhost Windows/WSL 2. Báo cáo mẫu là tài liệu tham khảo; kết luận dưới đây dựa trên source và kiểm tra thực tế.

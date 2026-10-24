@@ -122,3 +122,7 @@ docker compose up -d --wait
 Xem [trạng thái triển khai](docs/TRANG_THAI_LOCALHOST.md), [kế hoạch local](docs/03_KE_HOACH_PROJECT.md), [hồ sơ phân tích](docs/README.md) và `docs/project_data.json`. Chỉ đánh dấu hạ tầng đạt khi đã có output kiểm thử thật. Không sử dụng ảnh/kết quả báo cáo mẫu làm bằng chứng của project.
 
 Kết quả rà soát yêu cầu và các mục hồ sơ còn thiếu: [đối chiếu đề bài và báo cáo mẫu](docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md). Có thể chạy `node scripts/audit-requirements.js` để kiểm tra sâu. Xoay log hiện chạy trong container Nginx để cùng phục hồi khi restart; Promtail app/Nginx đọc file hiện hành và lấy thời gian JSON.
+
+## Image ứng dụng sau khắc phục bảo mật
+
+Runtime Alpine 3.23 + Node 24.22.1, chỉ có dependency production; npm/Yarn ở build stage. App/migrate đã được kiểm thử và triển khai. Docker Scout quét mọi severity: **0 Critical, 0 High, 1 Medium BusyBox chưa có bản vá**, không dùng suppression. [Chi tiết thay đổi, kiểm thử và giới hạn](docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md). Không suy ra kết quả này cho các image hạ tầng chưa quét. Khi cần nhận bản vá OS mới, build với `--pull --no-cache`, quét và kiểm thử trước khi thay image release.

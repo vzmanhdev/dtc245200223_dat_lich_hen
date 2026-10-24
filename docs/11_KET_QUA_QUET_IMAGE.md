@@ -1,3 +1,5 @@
+> **Cập nhật sau khắc phục:** image app mới đã deploy, 13 High → 0; quét mọi severity còn 1 Medium BusyBox chưa có bản vá. Xem [biên bản khắc phục](12_KHAC_PHUC_IMAGE_UNG_DUNG.md). Nội dung quét ban đầu phía dưới là lịch sử.
+
 # Kết quả Docker Scout cho image ứng dụng
 
 Ngày 24/10/2026. Người dùng đã đổi lựa chọn sang cho phép Docker Scout gửi metadata/SBOM tới Docker. Lệnh quét đã hoàn thành; lần chặn tự động trước đó không còn là trạng thái của phép quét này.

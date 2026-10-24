@@ -10,3 +10,5 @@ Tái tạo tùy chọn: `python scripts/build-report.py` cần Python có python
 
 
 Bổ sung sau lần quét được người dùng cho phép: Docker Scout image app báo 0 Critical, 13 High trên 6 gói; chưa khắc phục và chưa quét mọi image hạ tầng. Chi tiết: [Biên bản quét](../docs/11_KET_QUA_QUET_IMAGE.md).
+
+Cập nhật khắc phục: [image app mới đã deploy](../docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md), 13 High → 0; còn 1 Medium BusyBox chưa có bản vá theo Scout.
