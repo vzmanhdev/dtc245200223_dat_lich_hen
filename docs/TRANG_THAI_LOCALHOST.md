@@ -1,0 +1,45 @@
+> **Mốc hoàn thiện 24/10/2026:** localhost đã nghiệm thu, báo cáo Word 18 trang, clone sạch toàn stack, HTTPS/Network I/O và rollback đã bổ sung. Xem [đối chiếu hiện tại](08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md) và [demo/bàn giao](09_KICH_BAN_DEMO_VA_BAN_GIAO.md). Các kế hoạch/giới hạn cũ phía dưới là lịch sử, không thay bản đối chiếu mới.
+
+# Trạng thái triển khai localhost
+
+Cập nhật 24/10/2026, 02:12 UTC+7. Toàn bộ stack Docker Compose đã chạy sau khi cài WSL và restart Windows. Phạm vi chỉ localhost.
+
+| Dịch vụ | Địa chỉ |
+| --- | --- |
+| Website | http://localhost:8080 |
+| Quản trị lịch hẹn | http://localhost:8080/admin |
+| pgAdmin | http://localhost:5050 |
+| Grafana | http://localhost:3001 |
+| Prometheus | http://localhost:9090 |
+
+Tài khoản/mật khẩu nằm trong `.env` trên máy: ADMIN_USERNAME/ADMIN_PASSWORD, PGADMIN_DEFAULT_EMAIL/PGADMIN_DEFAULT_PASSWORD và biến GRAFANA. Cổng 3300 là preview cũ; dùng 8080 cho bản đầy đủ.
+
+## Kết quả kiểm chứng
+
+- Docker Engine 29.9.2, WSL 3.0.3.0; image Linux/amd64 đã pin digest. Build/up thành công, migration và log-init kết thúc mã 0.
+- 4 unit test đạt; integration qua Nginx và PostgreSQL Docker đạt: đặt lịch, chống đặt đồng thời, idempotency, tra cứu/hủy, đăng nhập admin, xác nhận, CSRF và logout.
+- `node scripts/verify-stack.js`: 15/15 đạt, gồm pgAdmin, Nginx, quyền DB, 5 target Prometheus UP, exporter DB/Nginx, container metric có nhãn service, Grafana provision 13 panel và 3 truy vấn LogQL.
+- Sau restart postgres/app/promtail/nginx: smoke web và 15 kiểm tra stack tiếp tục đạt. Hai bản ghi lịch hẹn có hash nội dung trước/sau giống nhau.
+- Backup `backups/appointment-20261024-021004.dump`, SHA256 `5147D2AE9268107A41D74EB0F44AE55A34799DC63D344D66E10C5619AC0ED99D`. Phục hồi vào DB riêng `restore_verify_20261024021018`: 2 lịch hẹn, schema version 1. Database gốc được giữ nguyên.
+- Minh chứng: `docs/evidence/stack-verification.json`, `docs/evidence/persistence-restore.json`; dump và JSON vận hành được gitignore.
+- pgAdmin dùng cổng container 8080 tương thích môi trường hạn quyền, host vẫn 5050; healthcheck HTTP đạt.
+
+![Giao diện Docker localhost](evidence/localhost-home.png)
+
+## Vận hành và việc còn lại
+
+Mở Docker Desktop rồi chạy `powershell -ExecutionPolicy Bypass -File scripts/start.ps1` khi cần khởi động project. Giữ nguyên `.env` và named volumes. Không chạy `docker compose down -v` vì sẽ xóa dữ liệu.
+
+Báo cáo Word ≥10 trang theo bìa mẫu chưa được tạo; GitHub đã push thành công nhánh main; remote đã đối chiếu khớp commit local. Chưa diễn tập fresh clone, rollback image, kiểm thử tải dài hạn hoặc quét toàn bộ image. Đã có quản trị dịch vụ/nhân viên/khung giờ/khách hàng và đăng nhập chung; xem hướng dẫn v3. Runtime localhost đã qua kiểm tra; hồ sơ nộp vẫn cần hoàn thiện.
+
+## Nâng cấp nghiệp vụ theo yêu cầu người dùng
+
+Đã bổ sung đăng ký/đăng nhập khách, Lịch hẹn của tôi và chọn chuyên viên tại đơn vị tư vấn. Chống trùng theo từng chuyên viên, liên kết lịch với tài khoản, kiểm thử quyền sở hữu và session đạt. Xem [chi tiết nghiệp vụ v2](06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md). Dữ liệu v1 được giữ lại; nhân viên chưa có tài khoản riêng.
+
+## Nâng cấp v3
+
+Đã thống nhất GET/POST `/login`, cập nhật tài khoản admin theo cấu hình `.env`, thêm quản trị dịch vụ/nhân viên/phân công/khung giờ/khách hàng và hồ sơ khách. 4 unit + 3 nhóm integration + 15 kiểm tra stack đạt. Fresh DB migration, recreate app không reload Nginx và restore schema v3 đã kiểm chứng. Chi tiết tại [hướng dẫn quản trị v3](07_HUONG_DAN_QUAN_TRI_V3.md).
+
+## Rà soát đề bài và báo cáo mẫu
+
+Đã đối chiếu trực tiếp nguồn Word và runtime. Phát hiện/sửa lỗi sidecar xoay log dừng sau restart Nginx, thu trùng file xoay và thiếu parse thời gian JSON app/Nginx. Kiểm tra hiện tại: 16/16 stack, 9/9 probe sâu; pgAdmin đọc bảng services và Grafana/LogQL có minh chứng UI. Báo cáo Word cá nhân và fresh clone vẫn chưa hoàn tất. Chi tiết tại [biên bản đối chiếu](08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md).

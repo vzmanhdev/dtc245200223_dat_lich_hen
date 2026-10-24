@@ -11,8 +11,17 @@ docs/evidence/*.json
 docs/evidence/*.log
 *.dump
 *.key
+infra/nginx/certs/
 *.pem
 *.pid
 # Course material and other students' reports stay on this machine.
 docx/
 docs/sources/
+# Temporary Office lock files are not report deliverables.
+.~lock.*#
+~$*
+__pycache__/
+*.pyc
+# Publish one current report; older local drafts remain recoverable in the backup bundle.
+reports/*.docx
+!reports/Bao_cao_Trien_khai_Theo_mau_dtc245200223.docx

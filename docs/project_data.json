@@ -1,0 +1,1373 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-10-24",
+  "timezone": "Asia/Bangkok",
+  "project": {
+    "topic_number": 40,
+    "name": "Hệ thống đặt lịch hẹn Appointment",
+    "course": "Triển khai và Quản trị Hệ thống Phần mềm",
+    "phase": "localhost_delivery_ready",
+    "application_implemented": true,
+    "deployment_verified": true,
+    "business_model": "Multi-consultant appointment system with unified email login and administrator-managed services, staff, assignments, slots and customers"
+  },
+  "student": {
+    "full_name": "Nguyễn Văn Mạnh",
+    "student_id": "dtc245200223",
+    "class": "CNTTK23B",
+    "confirmed_by_user": true,
+    "instructor_from_template": "Nguyễn Anh Chuyên",
+    "instructor_confirmed_by_user": false
+  },
+  "repository": {
+    "url": "https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git",
+    "owner": "vzmanhdev",
+    "local_git_initialized": true,
+    "remote_check": "main pushed and synchronized after feature and stability commits",
+    "remote_content_verified": true,
+    "pushed": true,
+    "first_implementation_commit": "08fe70d",
+    "implementation_commits": [
+      "08fe70d",
+      "a2d5e5a",
+      "726abe3",
+      "5bec305",
+      "8709311",
+      "fb4e5d6",
+      "7d23576",
+      "034f0e3",
+      "78b2991"
+    ],
+    "latest_feature_commit": "78b2991"
+  },
+  "deadline": {
+    "duration_hours": 24,
+    "recorded_reference_at": "2026-10-24T00:37:09+07:00",
+    "planning_due_at": "2026-10-25T00:37:09+07:00",
+    "precision_note": "Mốc kiểm tra thời gian ngay sau khi nhận yêu cầu 24 giờ; deadline xấp xỉ, không phải timestamp chính xác tin nhắn người dùng.",
+    "time_used_for_analysis_counts": true
+  },
+  "deployment": {
+    "sequence": [
+      "local"
+    ],
+    "local_os": "Windows",
+    "container_os": "Linux",
+    "docker_cli_found": true,
+    "docker_daemon_verified": true,
+    "vps_available": false,
+    "vps_provider": null,
+    "vps_ip": null,
+    "domain": null,
+    "credentials_available": false,
+    "status": "localhost_verified",
+    "vps_provider_proposal": null,
+    "provider_selected": false,
+    "spending_authorized": false,
+    "vps_plan_document": null,
+    "target": "localhost_only",
+    "vps_required": false,
+    "domain_required": false,
+    "docker_cli_path": "C:/Users/ADMIN/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe",
+    "blocker": null,
+    "preview_url": null,
+    "full_stack_url": "http://localhost:8080",
+    "preview_scope": "Native preview stopped after reboot; use full_stack_url",
+    "full_stack_running": true,
+    "docker_engine_version": "29.9.2",
+    "wsl_version": "3.0.3.0",
+    "login_url": "http://localhost:8080/login",
+    "schema_version": 3,
+    "local_admin_configured": true
+  },
+  "report": {
+    "minimum_pages": 10,
+    "target_pages": [
+      25,
+      30
+    ],
+    "cover_reference": "docx/Bao_cao_Appointment_System.docx",
+    "reference_role": "template_only",
+    "cover_to_preserve": true,
+    "report_authored": true,
+    "actual_pages": 27,
+    "path": "reports/Bao_cao_Trien_khai_Theo_mau_dtc245200223.docx",
+    "render_backend": "Installed Microsoft Word + Poppler",
+    "visual_qa": "All 27 final pages inspected after Word field update and render_docx/Poppler rasterization",
+    "commit_snapshot": "main after authorized squash; use git log -3",
+    "commit_count": 3,
+    "organization": "Four chapters matching the supplied deployment report template, conclusion and references",
+    "maximum_pages": 30,
+    "structure_reference": "docx/Bao_Cao_Trien_Khai_He_Thong.docx",
+    "figure_count": 14,
+    "table_count": 11
+  },
+  "sources": [
+    {
+      "id": "S12",
+      "file": "Bao_cao_Appointment_System.docx",
+      "relative_path": "docx/Bao_cao_Appointment_System.docx",
+      "sha256": "914aa6f806e7273dafe707493880994026faf1f037cd6bad7d6c72be0efce44c",
+      "bytes": 5479893,
+      "pages": null,
+      "chars": 41109,
+      "extraction": "docs/sources/Bao_cao_Appointment_System.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "report_template"
+    },
+    {
+      "id": "S02",
+      "file": "Bao_Cao_Trien_Khai_He_Thong.docx",
+      "relative_path": "docx/Bao_Cao_Trien_Khai_He_Thong.docx",
+      "sha256": "02c9189f6e9a969c92e76b214a255d133b5261f8e1f9b9198b68a3f6b6149a13",
+      "bytes": 58187,
+      "pages": null,
+      "chars": 5343,
+      "extraction": "docs/sources/Bao_Cao_Trien_Khai_He_Thong.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "report_template"
+    },
+    {
+      "id": "S03",
+      "file": "chapter01.pdf",
+      "relative_path": "docx/chapter01.pdf",
+      "sha256": "8e67512b88fcc21618bf818f4d8acd2c747ba7b40607c3445aabd2e456da4307",
+      "bytes": 1555488,
+      "pages": 19,
+      "chars": 40666,
+      "extraction": "docs/sources/chapter01.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S04",
+      "file": "chapter02.pdf",
+      "relative_path": "docx/chapter02.pdf",
+      "sha256": "504bc4d9c7f9c0fba1df654086d57fc92ed4634197b4038e5040af4713bde94a",
+      "bytes": 836474,
+      "pages": 23,
+      "chars": 42762,
+      "extraction": "docs/sources/chapter02.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S05",
+      "file": "chapter03.pdf",
+      "relative_path": "docx/chapter03.pdf",
+      "sha256": "5ccd92f6b04097c647cff1dea86e6cb659498bd6b37ff446ff5d0de4162275b6",
+      "bytes": 710676,
+      "pages": 14,
+      "chars": 24385,
+      "extraction": "docs/sources/chapter03.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S06",
+      "file": "chapter04.pdf",
+      "relative_path": "docx/chapter04.pdf",
+      "sha256": "f2350abeb8f78d0bb420beb50fb84300791d5fba89c1c2d748b7264acdbe3747",
+      "bytes": 1135853,
+      "pages": 21,
+      "chars": 37263,
+      "extraction": "docs/sources/chapter04.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S07",
+      "file": "chapter05.pdf",
+      "relative_path": "docx/chapter05.pdf",
+      "sha256": "d79148b828fa9b15024e7fa281bd05ce408d07789455df04d4d07cbf59467383",
+      "bytes": 1090299,
+      "pages": 12,
+      "chars": 20379,
+      "extraction": "docs/sources/chapter05.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S08",
+      "file": "chapter06.pdf",
+      "relative_path": "docx/chapter06.pdf",
+      "sha256": "0d6452160a617a4680817d464c37ff8abb431d08aac6551112d1469fd6dd545e",
+      "bytes": 535695,
+      "pages": 13,
+      "chars": 26178,
+      "extraction": "docs/sources/chapter06.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S09",
+      "file": "chapter07.pdf",
+      "relative_path": "docx/chapter07.pdf",
+      "sha256": "eac7a79f350ae9e68145d049463ff1bdab10aa27355a47f6bfb0f45678a71ab6",
+      "bytes": 4075409,
+      "pages": 18,
+      "chars": 34153,
+      "extraction": "docs/sources/chapter07.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S10",
+      "file": "chapter08.pdf",
+      "relative_path": "docx/chapter08.pdf",
+      "sha256": "e7b8366f346b7ec1c205f520b714f1f3955798846250830b26c3dad100e7a36c",
+      "bytes": 1991249,
+      "pages": 15,
+      "chars": 23908,
+      "extraction": "docs/sources/chapter08.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S11",
+      "file": "chapter09.pdf",
+      "relative_path": "docx/chapter09.pdf",
+      "sha256": "444725314dceb52963faa771c1a809382712b54573ebbc8fb10140c59b2c0817",
+      "bytes": 422013,
+      "pages": 16,
+      "chars": 43900,
+      "extraction": "docs/sources/chapter09.txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "course_chapter"
+    },
+    {
+      "id": "S01",
+      "file": "Đề tài Thực hành - Triển khai và Quản trị Hệ thống Phần mềm (Đề 40).docx",
+      "relative_path": "docx/Đề tài Thực hành - Triển khai và Quản trị Hệ thống Phần mềm (Đề 40).docx",
+      "sha256": "f0aded33fbbd7cc467af5af6d739a54f7f845ab856b01af1987f0058e315598e",
+      "bytes": 9548,
+      "pages": null,
+      "chars": 2880,
+      "extraction": "docs/sources/Đề tài Thực hành - Triển khai và Quản trị Hệ thống Phần mềm (Đề 40).txt",
+      "text_extraction_complete": true,
+      "visual_layout_verified": false,
+      "role": "assignment"
+    }
+  ],
+  "stack_proposal": {
+    "application": [
+      "Node.js 24",
+      "Express",
+      "EJS",
+      "pg"
+    ],
+    "database": [
+      "PostgreSQL 17",
+      "pgAdmin"
+    ],
+    "edge": [
+      "Nginx"
+    ],
+    "metrics": [
+      "Prometheus",
+      "Grafana",
+      "cAdvisor",
+      "Nginx exporter",
+      "PostgreSQL exporter"
+    ],
+    "logs_lab": [
+      "Loki",
+      "Promtail"
+    ],
+    "logs_long_term": [
+      "Loki",
+      "Grafana Alloy"
+    ],
+    "image_versions_pinned": true
+  },
+  "scope": {
+    "P0": [
+      "dịch vụ và slot seed",
+      "khách hàng và đặt lịch",
+      "chống trùng bằng ràng buộc PostgreSQL",
+      "đăng nhập admin và xác nhận/hủy",
+      "Docker Compose toàn bộ stack",
+      "Nginx",
+      "Prometheus Grafana và exporter",
+      "Loki Promtail và 3 query",
+      "ít nhất 4 hardening thực kiểm",
+      "backup restore tối thiểu",
+      "deploy toàn bộ localhost",
+      "README và 3 commit",
+      "báo cáo cá nhân ít nhất 10 trang"
+    ],
+    "P1": [
+      "CRUD danh mục đầy đủ",
+      "tra cứu token tự phục vụ",
+      "idempotency nâng cao",
+      "audit chi tiết",
+      "đo tải chuyên sâu"
+    ],
+    "after_deadline": [
+      "barcode",
+      "CSV",
+      "Google Calendar",
+      "đổi lịch",
+      "CI/CD",
+      "Alertmanager",
+      "Alloy vận hành dài hạn"
+    ],
+    "implemented_extension": [
+      "customer accounts",
+      "personal appointment history/cancellation",
+      "multiple consultant availability",
+      "consultant selection",
+      "unified role-based email login",
+      "service/staff/customer administration",
+      "staff-service assignments",
+      "single and batch availability management",
+      "profile editing",
+      "historical service/staff/price snapshots"
+    ]
+  },
+  "rubric": [
+    {
+      "id": "R1",
+      "name": "GitHub",
+      "points": 1.5,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    },
+    {
+      "id": "R2",
+      "name": "Web PostgreSQL pgAdmin",
+      "points": 1.5,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    },
+    {
+      "id": "R3",
+      "name": "Nginx",
+      "points": 1.5,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    },
+    {
+      "id": "R4",
+      "name": "Prometheus Grafana",
+      "points": 1.5,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    },
+    {
+      "id": "R5",
+      "name": "Loki Promtail LogQL",
+      "points": 1.5,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    },
+    {
+      "id": "R6",
+      "name": "Hardening",
+      "points": 1.5,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    },
+    {
+      "id": "R7",
+      "name": "Tổng thể trình bày",
+      "points": 1,
+      "status": "evidence_ready_for_assessment",
+      "note": "Not an assigned grade; actual assessment belongs to instructor."
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR01",
+      "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
+      "requirement": "Danh mục dịch vụ: tên, mô tả, thời lượng, trạng thái hoạt động",
+      "acceptance": "Khách chỉ thấy dịch vụ active; admin tạo/sửa được; lỗi input có thông báo",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR02",
+      "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
+      "requirement": "Khung giờ theo dịch vụ, nguồn lực và thời điểm",
+      "acceptance": "Chỉ trả slot mở trong tương lai; slot đã giữ không còn đặt được",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR03",
+      "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
+      "requirement": "Lưu khách hàng và lịch hẹn",
+      "acceptance": "Form hợp lệ tạo đúng bản ghi DB; form sai không tạo bản ghi dở dang",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR04",
+      "source_and_type": "S01 P44, Bắt buộc; chi tiết MVP",
+      "requirement": "Xác nhận lịch",
+      "acceptance": "Admin xác nhận; trạng thái sau reload và tra cứu nhất quán",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR05",
+      "source_and_type": "Thiết kế MVP",
+      "requirement": "Đăng nhập/đăng xuất admin, session bền vững",
+      "acceptance": "Người chưa đăng nhập không truy cập/thay đổi dữ liệu admin; session mất hiệu lực khi logout",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR06",
+      "source_and_type": "Thiết kế MVP",
+      "requirement": "Quản lý dịch vụ và slot",
+      "acceptance": "Không tạo slot chồng thời gian cho cùng nguồn lực; không xóa slot đang có lịch",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR07",
+      "source_and_type": "Thiết kế MVP",
+      "requirement": "Danh sách lịch và khách liên quan, lọc ngày/trạng thái",
+      "acceptance": "Admin lọc đúng, phân trang có giới hạn, không public dữ liệu liên hệ",
+      "status": "partially_verified",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR08",
+      "source_and_type": "Thiết kế MVP",
+      "requirement": "Tra cứu/hủy lịch riêng tư",
+      "acceptance": "Token đúng xem đúng lịch; token sai không lộ dữ liệu; hủy trước giờ bắt đầu giải phóng slot",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR09",
+      "source_and_type": "Thiết kế MVP",
+      "requirement": "Chống đặt trùng, idempotency",
+      "acceptance": "2 request đồng thời cùng slot: chỉ 1 lịch active; gửi lại cùng khóa không tạo bản sao",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "FR10",
+      "source_and_type": "Thiết kế MVP",
+      "requirement": "Ghi nhận thay đổi trạng thái",
+      "acceptance": "Có thời điểm, trạng thái trước/sau và tác nhân; chuyển sai trạng thái bị từ chối",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "INF01",
+      "source_and_type": "S01 P4, P20",
+      "requirement": "GitHub source/config/README, ≥3 commit có ý nghĩa",
+      "acceptance": "URL repo, commit SHA theo 3 mốc; clone mới dựng được",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
+    },
+    {
+      "id": "INF02",
+      "source_and_type": "S01 P5, P14, P45",
+      "requirement": "Toàn bộ service chạy Compose, PostgreSQL và pgAdmin",
+      "acceptance": "Compose hợp lệ; app kết nối DB; Query Tool xem lịch",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "INF03",
+      "source_and_type": "S01 P6, P26",
+      "requirement": "Nginx reverse proxy, HTTPS hoặc headers",
+      "acceptance": "curl/browser qua Nginx; app không có cổng host trực tiếp",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "OBS01",
+      "source_and_type": "S01 P7, P29",
+      "requirement": "Prometheus thu thập và Grafana hiển thị container/web/DB",
+      "acceptance": "Targets UP; panel có mẫu thật; cấu hình datasource/dashboard lưu Git",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
+    },
+    {
+      "id": "OBS02",
+      "source_and_type": "S01 P8, P32",
+      "requirement": "Loki và Promtail, 2–3 LogQL",
+      "acceptance": "3 query đã chạy với labels thật, ảnh và log mẫu",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
+    },
+    {
+      "id": "SEC01",
+      "source_and_type": "S01 P9, P35",
+      "requirement": "Ít nhất 3–4 hardening",
+      "acceptance": "UID non-root app, db-net, secrets, least privilege DB, header; bằng chứng kiểm tra",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "DOC01",
+      "source_and_type": "S01 P10–12, P38",
+      "requirement": "Báo cáo ≥10 trang, bìa và hình minh họa",
+      "acceptance": "Nội dung đúng đề40, đủ kết quả 6 bước; ảnh thật có chú thích",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
+    },
+    {
+      "id": "DEP01",
+      "source_and_type": "Mục tiêu người dùng, Vận hành",
+      "requirement": "Deploy toàn bộ stack trên localhost",
+      "acceptance": "Website, DB tool, metrics/log và hardening được kiểm chứng local",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "OPS01",
+      "source_and_type": "S04/S08/S11, Vận hành",
+      "requirement": "Dữ liệu bền vững và backup/restore",
+      "acceptance": "Restart không mất dữ liệu; restore sang DB thử nghiệm được",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/07_HUONG_DAN_QUAN_TRI_V3.md"
+      ]
+    },
+    {
+      "id": "OPS02",
+      "source_and_type": "S06, Vận hành",
+      "requirement": "Release và rollback có phiên bản",
+      "acceptance": "Tag/digest, SHA, backup trước migration và quy trình rollback đã thử",
+      "status": "verified_localhost",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+        "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md"
+      ]
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M0",
+      "start_hour": 0,
+      "end_hour": 1,
+      "budget_hours": 1,
+      "title": "Môi trường và Git",
+      "depends_on": [],
+      "status": "partially_verified"
+    },
+    {
+      "id": "M1",
+      "start_hour": 1,
+      "end_hour": 6,
+      "budget_hours": 5,
+      "title": "Ứng dụng và DB",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "localhost_mvp_verified"
+    },
+    {
+      "id": "M2",
+      "start_hour": 6,
+      "end_hour": 9,
+      "budget_hours": 3,
+      "title": "Compose và Nginx",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "localhost_mvp_verified"
+    },
+    {
+      "id": "M3",
+      "start_hour": 9,
+      "end_hour": 11,
+      "budget_hours": 2,
+      "title": "Metrics",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "localhost_mvp_verified"
+    },
+    {
+      "id": "M4",
+      "start_hour": 11,
+      "end_hour": 13,
+      "budget_hours": 2,
+      "title": "Logs",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "localhost_mvp_verified"
+    },
+    {
+      "id": "M5",
+      "start_hour": 13,
+      "end_hour": 15,
+      "budget_hours": 2,
+      "title": "Hardening và phục hồi",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "partially_verified"
+    },
+    {
+      "id": "M6",
+      "start_hour": 15,
+      "end_hour": 19,
+      "budget_hours": 4,
+      "title": "Nghiệm thu localhost và phục hồi",
+      "depends_on": [
+        "M5"
+      ],
+      "status": "localhost_mvp_verified"
+    },
+    {
+      "id": "M7",
+      "start_hour": 19,
+      "end_hour": 22,
+      "budget_hours": 3,
+      "title": "Báo cáo và demo",
+      "depends_on": [
+        "M6"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "BUFFER",
+      "start_hour": 22,
+      "end_hour": 24,
+      "budget_hours": 2,
+      "title": "Dự phòng",
+      "depends_on": [
+        "M7"
+      ],
+      "status": "not_needed_for_current_delivery"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T00",
+      "milestone": "M0",
+      "title": "Đã xác nhận deadline 24 giờ, thông tin sinh viên, repo và mẫu bìa S12; phạm vi cuối localhost, bỏ VPS.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": []
+    },
+    {
+      "id": "T01",
+      "milestone": "M0",
+      "title": "Kiểm tra Docker Desktop/WSL2 hoặc Linux VM; bật Linux containers; chạy `docker version`, `docker compose version`, kiểm tra tài nguyên/port.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T02",
+      "milestone": "M0",
+      "title": "Khởi tạo Git local; xác nhận identity và remote. Tạo repo GitHub khi đã có tài khoản/định danh được xác nhận.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T03",
+      "milestone": "M0",
+      "title": "Tạo cấu trúc app/infra/scripts/tests; .gitignore/.dockerignore; .env.example chỉ placeholder; quy tắc LF cho shell script.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T04",
+      "milestone": "M0",
+      "title": "Chốt dependency bằng lockfile, phiên bản runtime và image được kiểm thử; viết README khởi động ban đầu.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T05",
+      "milestone": "M1",
+      "title": "Viết migration: các bảng, FK/check, unique booking/idempotency, ràng buộc slot và chống chồng lấn resource.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T06",
+      "milestone": "M1",
+      "title": "Tạo role owner/migration, app, monitoring; app không owner/superuser. Seed demo tương đối theo ngày chạy.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T07",
+      "milestone": "M1",
+      "title": "Làm luồng public: dịch vụ → slot → đặt → trả mã/token; transaction, idempotency và xử lý 409.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T08",
+      "milestone": "M1",
+      "title": "Làm session admin, login/logout, CSRF/rate limit, quản lý dịch vụ/slot/lịch và trạng thái.",
+      "status": "done",
+      "priority": "P0_with_optional_extensions",
+      "evidence": [],
+      "reason": "Unified login and service/staff/slot/customer administration implemented and integration-tested."
+    },
+    {
+      "id": "T09",
+      "milestone": "M1",
+      "title": "Làm tra cứu/hủy riêng tư; form validation, timezone, error/empty state, giao diện responsive.",
+      "status": "done",
+      "priority": "P0_with_optional_extensions",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T10",
+      "milestone": "M1",
+      "title": "Integration test PostgreSQL: concurrency, retry, giải phóng slot, phân quyền, ranh giới ngày; unit test quy tắc trạng thái.",
+      "status": "done",
+      "priority": "P0_with_optional_extensions",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T11",
+      "milestone": "M2",
+      "title": "Viết Dockerfile app với user non-root, dependency production và healthcheck; kiểm tra graceful shutdown.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T12",
+      "milestone": "M2",
+      "title": "Viết Compose với networks, named volumes, health dependency và migration one-shot; pgAdmin lưu cấu hình.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T13",
+      "milestone": "M2",
+      "title": "Nginx proxy app qua service DNS, header bảo mật, request ID, giới hạn body/rate; chặn health nội bộ/metrics/status khỏi public.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T14",
+      "milestone": "M2",
+      "title": "Tạo profile cấu hình local và tài liệu port; kiểm tra volume sau restart/recreate; nginx -t.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T15",
+      "milestone": "M2",
+      "title": "Chạy AT07/08, cập nhật README và lưu ảnh AT01/DB/Nginx.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T16",
+      "milestone": "M3",
+      "title": "Instrument app: request count, histogram duration, status theo route template; endpoint metrics nội bộ.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T17",
+      "milestone": "M3",
+      "title": "Thêm cAdvisor, Nginx exporter, PostgreSQL exporter và role cần thiết; đánh giá host mounts của cAdvisor.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T18",
+      "milestone": "M3",
+      "title": "Prometheus scrape cấu hình 15 giây, kiểm tra bằng promtool; targets đầy đủ, retention/volume.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T19",
+      "milestone": "M3",
+      "title": "Provision Grafana datasource Prometheus và dashboard JSON: container CPU/RAM/I/O, app rate/errors/p95, Nginx connections/requests, DB up/connections/transactions.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T20",
+      "milestone": "M3",
+      "title": "Phát traffic demo, xác minh tất cả panel có dữ liệu; kiểm tra label/metric thật thay vì import dashboard rồi để No data.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T21",
+      "milestone": "M4",
+      "title": "Chuẩn hóa application log JSON và Nginx access log JSON; gửi stdout/stderr. PostgreSQL log đủ lỗi/kết nối cần demo, không ghi toàn bộ dữ liệu nhạy cảm.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T22",
+      "milestone": "M4",
+      "title": "Cấu hình Loki schema tương thích image đã pin, volume/retention; Promtail discovery hoặc đường dẫn log phù hợp host, positions bền vững.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T23",
+      "milestone": "M4",
+      "title": "Chuẩn hóa labels `service`, `environment`; lọc đúng project; không dùng customer ID/token làm label.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T24",
+      "milestone": "M4",
+      "title": "Provision datasource Loki, viết 3 query và kịch bản tạo log mẫu; chứng minh có cả app/Nginx/PostgreSQL.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T25",
+      "milestone": "M4",
+      "title": "Test restart agent và tìm log mới; ghi chú EOL Promtail, phương án chuyển Alloy ở bản public.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T26",
+      "milestone": "M5",
+      "title": "Kiểm tra UID thực tế của tiến trình app; `no-new-privileges`, drop capability, read-only filesystem/tmpfs ở nơi tương thích; kiểm tra app vẫn chạy.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T27",
+      "milestone": "M5",
+      "title": "Kiểm tra port binding, network isolation, quyền DB, secret management, session/CSRF/security headers; ghi ngoại lệ exporter/agent host mounts.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T28",
+      "milestone": "M5",
+      "title": "Quét dependency và image bằng công cụ đã chọn; xử lý lỗ hổng quan trọng, lưu phiên bản/cách khắc phục và ngoại lệ còn lại.",
+      "status": "partially_verified",
+      "priority": "P0",
+      "evidence": [],
+      "reason": "Production dependency audit zero advisories. App image remediation deployed: Scout full-severity scan 0 Critical/High, 1 Medium BusyBox Not Fixed; infrastructure image scans outstanding."
+    },
+    {
+      "id": "T29",
+      "milestone": "M5",
+      "title": "Viết script backup/restore PostgreSQL, backup cấu hình; backup ngoài volume nguồn; restore vào DB riêng và kiểm tra dữ liệu.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T30",
+      "milestone": "M5",
+      "title": "Pin release image theo SHA/digest; diễn tập rollback app với schema tương thích và phương án restore khi migration phá tương thích.",
+      "status": "done",
+      "priority": "P0_with_optional_extensions",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T31",
+      "milestone": "M5",
+      "title": "Chạy bộ AT07/11/12/13, cập nhật runbook và checklist security.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T32",
+      "milestone": "M6",
+      "title": "Thu thập cấu hình host, quyền SSH, URL/domain và DNS nếu VPS; ước tính tài nguyên bằng số liệu stack local trước khi chọn gói.",
+      "status": "not_applicable",
+      "priority": "P0",
+      "evidence": [],
+      "reason": "VPS/domain/Alloy production removed from scope by user"
+    },
+    {
+      "id": "T33",
+      "milestone": "M6",
+      "title": "Chuẩn bị host Linux, Docker/Compose, thư mục deploy, quyền file, firewall và SSH; kiểm thử đăng nhập mới trước khi siết SSH.",
+      "status": "not_applicable",
+      "priority": "P0",
+      "evidence": [],
+      "reason": "VPS/domain/Alloy production removed from scope by user"
+    },
+    {
+      "id": "T34",
+      "milestone": "M6",
+      "title": "Chuyển cấu hình/secret riêng, pull image hoặc build trên host phù hợp, migrate/seed kiểm soát, khởi động stack.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T35",
+      "milestone": "M6",
+      "title": "Cấu hình domain/TLS nếu Internet; pgAdmin/Grafana/Prometheus qua localhost/tunnel; kiểm tra port từ mạng ngoài.",
+      "status": "not_applicable",
+      "priority": "P0",
+      "evidence": [],
+      "reason": "VPS/domain/Alloy production removed from scope by user"
+    },
+    {
+      "id": "T36",
+      "milestone": "M6",
+      "title": "Chạy smoke đặt/xác nhận, metrics/log, volume, backup/restore; kiểm tra sau restart stack và reboot host khi phù hợp.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T37",
+      "milestone": "M6",
+      "title": "Nếu cần public dài hạn, nghiệm thu Alloy trên profile riêng; giữ bộ minh chứng Promtail lab đáp ứng đề.",
+      "status": "not_applicable",
+      "priority": "P0_with_optional_extensions",
+      "evidence": [],
+      "reason": "VPS/domain/Alloy production removed from scope by user"
+    },
+    {
+      "id": "T38",
+      "milestone": "M6",
+      "title": "Ghi biên bản nghiệm thu localhost: phiên bản, URL, kiểm thử và lỗi còn lại",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/TRANG_THAI_LOCALHOST.md",
+        "docs/evidence/stack-verification.json"
+      ]
+    },
+    {
+      "id": "T39",
+      "milestone": "M7",
+      "title": "Viết báo cáo bám đề40, lấy bố cục bìa đầu S12 và điền Nguyễn Văn Mạnh, dtc245200223, CNTTK23B; thay nội dung/ảnh/số liệu của người khác bằng kết quả thực. S02 chỉ tham khảo bổ sung.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T40",
+      "milestone": "M7",
+      "title": "Chèn ảnh thật và chú thích, sơ đồ mạng/dữ liệu, cấu hình cốt lõi, 3 LogQL, bảng hardening và kết quả phục hồi.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T41",
+      "milestone": "M7",
+      "title": "Kiểm tra báo cáo ≥10 trang sau render, mục lục, font, bảng/ảnh và bìa có thông tin thật.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T42",
+      "milestone": "M7",
+      "title": "Fresh clone/dựng mới theo README; kiểm tra không thiếu file config, image hoặc bước cấp secret.",
+      "status": "done",
+      "priority": "P0",
+      "evidence": [
+        "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+        "reports/Bao_cao_Appointment_dtc245200223.docx"
+      ]
+    },
+    {
+      "id": "T43",
+      "milestone": "M7",
+      "title": "Diễn tập demo 10–15 phút; lưu release cuối và đối chiếu rubric 10 điểm.",
+      "status": "done_script_and_component_rehearsal",
+      "priority": "P0",
+      "evidence": [
+        "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md"
+      ],
+      "reason": "Business workflow integration and separate UI/infra checks passed; 10–15 minute presentation guide prepared. No recorded video or live graded presentation claimed."
+    }
+  ],
+  "open_inputs": [],
+  "risks": [
+    "Promtail retained for assignment; not a long-term Internet stack recommendation.",
+    "App image: 0 Critical/High, 1 Medium BusyBox Not Fixed remains; infrastructure images not yet scanned.",
+    "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
+    "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
+  ],
+  "deliverables": [
+    "docs/01_TONG_QUAN_DU_AN.md",
+    "docs/02_PHAN_TICH_YEU_CAU.md",
+    "docs/03_KE_HOACH_PROJECT.md",
+    "docs/04_DEPLOY_VA_NGHIEM_THU.md",
+    "docs/project_data.json",
+    "README.md",
+    "docs/TRANG_THAI_LOCALHOST.md",
+    "compose.yaml",
+    "docs/06_NGHIEP_VU_TAI_KHOAN_VA_CHUYEN_VIEN.md",
+    "docs/07_HUONG_DAN_QUAN_TRI_V3.md",
+    "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+    "reports/Bao_cao_Appointment_dtc245200223.docx",
+    "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+    "docs/10_RELEASE_VA_ROLLBACK_LOCAL.md",
+    "docs/11_KET_QUA_QUET_IMAGE.md",
+    "docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md"
+  ],
+  "verification": {
+    "unit_tests": {
+      "status": "passed",
+      "tests": 4
+    },
+    "postgres_integration": {
+      "status": "passed",
+      "database": "PostgreSQL 17 Docker Compose",
+      "scope": "HTTP through Nginx localhost:8080",
+      "additional_checks": [
+        "admin page render and filter",
+        "invalid unicode CSRF rejected"
+      ]
+    },
+    "compose_config": "passed",
+    "browser_booking_preview": "passed",
+    "docker_stack": "passed_16_checks",
+    "backup_restore_compose": "passed",
+    "report_docx": "rendered_27_pages_visually_reviewed",
+    "registry_images": {
+      "status": "passed",
+      "linux_amd64_images": 13,
+      "record": "infra/images.lock.json"
+    },
+    "backup_restore_native": "not_available_in_minimal_test_binaries",
+    "last_engine_check": "2026-10-24 02:10 UTC+7: Engine 29.9.2 running; WSL 3.0.3.0",
+    "persistence_restart": "passed",
+    "stack_evidence": "docs/evidence/stack-verification.json",
+    "restore_evidence": "docs/evidence/persistence-restore.json",
+    "customer_accounts": {
+      "status": "passed",
+      "integration_scenarios": 2,
+      "checks": [
+        "registration/login/logout",
+        "session rotation and CSRF",
+        "ownership isolation",
+        "same-time bookings across different staff",
+        "duplicate slot rejection"
+      ]
+    },
+    "backup_restore_v2": {
+      "status": "passed",
+      "backup": "backups/appointment-20261024-044149.dump",
+      "restored_database": "restore_verify_20261024044152",
+      "schema_versions": [
+        1,
+        2
+      ],
+      "evidence": "docs/evidence/v2-restore.json"
+    },
+    "browser_customer_booking": {
+      "status": "passed",
+      "booking_code": "MH-64FD1BEF3C10",
+      "consultant": "Trần Thu Hà",
+      "final_status": "confirmed",
+      "evidence": "docs/evidence/customer-account-confirmed.png"
+    },
+    "management_v3": {
+      "status": "passed",
+      "unit_tests": 4,
+      "integration_scenarios": 3,
+      "stack_checks": 16,
+      "browser_booking": "MH-75CB5CEF4D4C",
+      "browser_final_status": "confirmed",
+      "fresh_schema": "docs/evidence/fresh-schema-v3.json",
+      "recreate": "docs/evidence/v3-recreate.json",
+      "restore": "docs/evidence/v3-restore.json"
+    },
+    "requirements_audit": {
+      "status": "core_assignment_deliverables_ready",
+      "report": "docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md",
+      "stack_checks": 16,
+      "deep_probes": 9,
+      "pgadmin_ui": "services query succeeded",
+      "grafana_ui": "dashboard and Loki Explore verified",
+      "fix_commits": [
+        "034f0e3",
+        "78b2991"
+      ],
+      "remaining": [],
+      "limitations": [
+        "Promtail retained for assignment; not a long-term Internet stack recommendation.",
+        "App image: 0 Critical/High, 1 Medium BusyBox Not Fixed remains; infrastructure images not yet scanned.",
+        "cAdvisor privileged; three core centralized log sources; Windows firewall enabled profiles only, no LAN firewall audit.",
+        "Instructor name on cover follows source; GitHub owner remains vzmanhdev as provided."
+      ]
+    },
+    "log_rotation": {
+      "status": "passed_after_fix",
+      "record": "docs/evidence/log-rotation-verification.json"
+    },
+    "log_ingestion": {
+      "status": "passed_for_new_events_after_fix",
+      "record": "docs/evidence/log-ingestion-verification.json",
+      "historical_duplicates_preserved": true
+    },
+    "tls": {
+      "status": "passed",
+      "protocol": "TLSv1.3",
+      "secure_cookie": true,
+      "record": "docs/evidence/tls-verification.json"
+    },
+    "clean_clone": {
+      "status": "passed",
+      "commit": "29cb15c",
+      "services": 13,
+      "stack_checks": 16,
+      "isolated_volumes": true,
+      "record": "docs/evidence/clean-clone-verification.json"
+    },
+    "rollback": {
+      "status": "passed",
+      "http": 200,
+      "fixture_rows_preserved": 1,
+      "checksum_matches": true,
+      "record": "docs/evidence/rollback-verification.json",
+      "schema_downgrade_tested": false
+    },
+    "production_dependency_audit": {
+      "status": "passed",
+      "known_advisories": 0,
+      "record": "docs/evidence/npm-audit-final.json"
+    },
+    "container_image_scan": {
+      "at": "2026-10-24T00:44:45.816Z",
+      "image_id": "sha256:3340102077cf23cc7d0cc18bca1d0afc32fca3d99a050acb814f260cb596e1e3",
+      "manifest": "sha256:3340102077cf23cc7d0cc18bca1d0afc32fca3d99a050acb814f260cb596e1e3",
+      "status": "deployed_verified",
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 0,
+      "unspecified": 0,
+      "package_count": 141,
+      "all_severities_scanned": true,
+      "unit_tests": 4,
+      "integration_groups": 3,
+      "stack_checks": 16,
+      "tls": "passed",
+      "business_row_counts_preserved": true,
+      "previous_image": "manh-appointment:before-security-20261024",
+      "backup": "backups/appointment-20261024-074318.dump",
+      "remaining": "BusyBox CVE-2025-60876 Medium, Not Fixed in Alpine 3.23 according to Scout",
+      "evidence": "docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md",
+      "infrastructure_images_scanned": false
+    },
+    "container_image_scan_before_remediation": {
+      "status": "completed_with_findings",
+      "authorization": "User changed choice and explicitly allowed Docker Scout metadata/SBOM transmission",
+      "image": "manh-appointment:local",
+      "image_id": "sha256:85087dee5c9a5f3f4956862d309c425951a3f853739ddf4c3d4189f6c60a9508",
+      "packages_indexed": 390,
+      "critical": 0,
+      "high": 13,
+      "vulnerable_packages": 6,
+      "severity_filter": [
+        "critical",
+        "high"
+      ],
+      "infrastructure_images_scanned": false,
+      "remediated": false,
+      "evidence": "docs/11_KET_QUA_QUET_IMAGE.md"
+    }
+  },
+  "scope_change": {
+    "at": "2026-10-24",
+    "requested_by_user": "Drop VPS deployment. Run all services stably on localhost first."
+  },
+  "delivery": {
+    "report": "reports/Bao_cao_Trien_khai_Theo_mau_dtc245200223.docx",
+    "web": "http://localhost:8080",
+    "https": "https://localhost",
+    "guide": "docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md",
+    "mandatory_implementation_remaining": [],
+    "optional_external_image_scan": "completed_and_13_high_remediated_one_medium_remaining"
+  }
+}

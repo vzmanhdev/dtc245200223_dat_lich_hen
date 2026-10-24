@@ -1,0 +1,132 @@
+# Hệ thống đặt lịch hẹn trên localhost
+
+[Báo cáo theo mẫu 4 chương](reports/Bao_cao_Trien_khai_Theo_mau_dtc245200223.docx) · [Demo và bàn giao](docs/09_KICH_BAN_DEMO_VA_BAN_GIAO.md) · [Release/rollback](docs/10_RELEASE_VA_ROLLBACK_LOCAL.md)
+
+Đề 40 · Triển khai và Quản trị Hệ thống Phần mềm. Nguyễn Văn Mạnh · dtc245200223 · CNTTK23B.
+
+Ứng dụng đặt lịch bằng Node.js/Express và PostgreSQL. Toàn bộ môi trường mục tiêu dùng Docker Compose: Nginx, app, PostgreSQL, pgAdmin, Prometheus, Grafana, cAdvisor, Nginx/PostgreSQL exporter, Loki và Promtail. Chỉ chạy trên localhost; không cần VPS hoặc domain.
+
+## Chạy lần đầu
+
+Cần Docker Desktop chạy **Linux containers**, WSL 2 hoạt động trên Windows, Git có OpenSSL và Node.js 24 để tạo cấu hình/kiểm thử. Docker Engine phải ở trạng thái running, không chỉ có Docker CLI. Mạng cần tải npm package và container image ở lần đầu.
+
+```powershell
+git clone https://github.com/vzmanhdev/dtc245200223_dat_lich_hen.git
+cd dtc245200223_dat_lich_hen
+npm.cmd ci --ignore-scripts
+npm.cmd run setup
+powershell -ExecutionPolicy Bypass -File scripts/start.ps1
+```
+
+Hoặc khi `docker` đã có trên PATH:
+
+```powershell
+docker compose config --quiet
+docker compose up -d --build --wait --wait-timeout 240
+docker compose ps
+```
+
+`npm run setup` tạo `.env` với mật khẩu ngẫu nhiên riêng và không ghi đè khi file đã có. Mật khẩu xem trong file này trên máy của bạn, không đưa vào Git hoặc ảnh báo cáo. Việc đổi biến mật khẩu sau khi DB/Grafana/pgAdmin đã khởi tạo không tự cập nhật mọi tài khoản; phải đổi trong dịch vụ theo quy trình tương ứng. Không xóa volume để đổi mật khẩu.
+
+| Giao diện | Địa chỉ mặc định | Tài khoản |
+| --- | --- | --- |
+| Website | http://localhost:8080 | Xem công khai; đăng ký/đăng nhập để đặt lịch |
+| Đăng nhập chung | http://localhost:8080/login | Email/mật khẩu khách hoặc admin; admin dùng ADMIN_USERNAME/ADMIN_PASSWORD trong .env |
+| Quản trị | http://localhost:8080/admin | Chỉ tài khoản có quyền admin |
+| pgAdmin | http://localhost:5050 | PGADMIN_DEFAULT_EMAIL và PGADMIN_DEFAULT_PASSWORD |
+| Grafana | http://localhost:3001/d/appointment-local | GRAFANA_ADMIN_USER và GRAFANA_ADMIN_PASSWORD |
+| Prometheus | http://localhost:9090/targets | Chỉ bind loopback |
+
+Trong pgAdmin, server Appointment PostgreSQL đã được khai báo; nhập password PostgreSQL của `.env` khi kết nối. Host là `postgres`, database `appointment`, port nội bộ `5432`. Database không publish ra host. Loki/Promtail/exporter không có cổng host; dùng Grafana Explore để đọc log.
+
+Mặc định port web 8080; nếu đổi WEB_PORT hoặc các cổng khác trong `.env`, cập nhật URL kiểm thử theo biến môi trường. Một số lệnh smoke mặc định 8080 và có thể dùng SMOKE_BASE_URL để đổi.
+
+Container image và Node base image đã pin digest **Linux/amd64**, được kiểm tra trên registry. Chưa dùng digest này như bằng chứng image đã chạy; xem trạng thái thực tế phía dưới.
+
+## Dùng thử nghiệp vụ
+
+1. Mở `/register`, tạo tài khoản khách bằng tên, số điện thoại, email và mật khẩu ít nhất 12 ký tự. Đăng nhập tại `/login`; session được đổi sau xác thực.
+2. Chọn dịch vụ, chuyên viên tư vấn, ngày do đơn vị mở lịch (tối đa 365 ngày) và khung giờ còn trống. Liên hệ lấy từ tài khoản đã đăng nhập, server không tin thông tin định danh gửi từ trình duyệt.
+3. Gửi yêu cầu: lịch thuộc tài khoản khách, gắn chuyên viên của slot và ở trạng thái pending. Vào `/account` để xem “Lịch hẹn của tôi”.
+4. Quản trị viên dùng cùng `/login`, tiếp nhận và xác nhận lịch với chuyên viên được chọn. Khách xem trạng thái cập nhật trong tài khoản, có thể hủy trước giờ bắt đầu.
+5. Chỉ admin được xác nhận hoặc hoàn tất; hoàn tất sau giờ kết thúc. Khách hủy trước giờ bắt đầu; admin có thể hủy để xử lý cả lịch quá giờ. Khách không được xem/hủy lịch của tài khoản khác bằng ID.
+
+Mô hình: khách hàng đặt tư vấn với một chuyên viên của đơn vị Mạnh Consulting. Có ba chuyên viên mẫu, mỗi người có lịch độc lập; một người không được có slot chồng lấn nhưng hai người có thể nhận khách cùng giờ. Cùng một slot chỉ có một lịch đang giữ. Admin đại diện đơn vị điều phối/xác nhận; chưa có tài khoản đăng nhập riêng cho nhân viên.
+
+Quản trị có 5 mục: **Lịch hẹn / Dịch vụ / Nhân viên / Khung giờ / Khách hàng**. Admin tạo/sửa/ngừng dịch vụ, phân công nhân viên, mở lịch đơn hoặc hàng loạt, đóng/mở slot, tìm và xác nhận/hủy/hoàn tất lịch, xem lịch sử khách và khóa/mở tài khoản. Khách tự cập nhật hồ sơ. Xem [hướng dẫn nghiệp vụ v3](docs/07_HUONG_DAN_QUAN_TRI_V3.md).
+
+Migration v3 giữ dữ liệu cũ, thêm phân công nhân viên–dịch vụ, thời lượng dịch vụ linh hoạt và snapshot tên/giá. Lịch cũ chưa có tài khoản không tự gán theo email vì email chưa xác minh; token cũ vẫn dùng được. Seed chỉ dùng khi khởi tạo/nâng cấp v3 lần đầu; sau đó mở lịch qua quản trị, migration không tái tạo lịch đã đóng hoặc nhân viên đổi tên.
+
+`ADMIN_USERNAME` hiện là email admin. Để chủ động cập nhật admin từ `.env`, chạy `docker compose run --rm --no-deps migrate node app/migrate.js --reset-admin`; lệnh này thu hồi phiên admin cũ và vô hiệu các tài khoản admin khác. Không đưa mật khẩu vào mã nguồn/Git. Khởi động thông thường giữ mật khẩu DB hiện có.
+
+Session khách/admin nằm trong PostgreSQL, có CSRF, cookie HttpOnly/SameSite và rate limit. Server xác định vai trò, không nhận quyền admin từ form đăng ký. Ngừng đối tượng thay cho xóa cứng; lịch có khách và lịch sử được bảo vệ bởi validation, FK/constraint và transaction.
+
+Chưa có tài khoản đăng nhập riêng cho nhân viên, xác minh email, quên mật khẩu, email/SMS, thanh toán hay đồng bộ lịch ngoài. Danh sách có bộ lọc và giới hạn số dòng, chưa có phân trang đầy đủ.
+
+## Kiểm thử và nghiệm thu
+
+Nếu npm trên mạng hiện tại báo `UNABLE_TO_VERIFY_LEAF_SIGNATURE`, dùng kho CA của Windows bằng `$env:NODE_OPTIONS='--use-system-ca'` rồi chạy lại npm. Giữ xác minh TLS bật; không dùng `strict-ssl=false`. Cấu hình này chỉ áp dụng tiến trình PowerShell hiện tại.
+
+```powershell
+npm.cmd test
+npm.cmd run test:integration
+npm.cmd run smoke
+node scripts/verify-stack.js
+```
+
+Integration test tạo tài khoản/dữ liệu giả, giữ lịch sử trong DB và cố gắng hủy lịch thử sau mỗi kịch bản. Không dùng email kiểm thử để nhận thư. Kiểm tra đăng ký/đăng nhập/logout khách, quyền sở hữu lịch, hai chuyên viên cùng giờ, cuộc đua hai request, idempotency, validation, token riêng, admin auth, xác nhận, logout/CSRF và route metrics bị chặn ở Nginx. Chạy trên stack demo, không dùng DB có dữ liệu người dùng thật.
+
+`verify-stack.js` kiểm tra engine, config, Nginx, UID, DB, exporter, targets, dashboard và 3 LogQL; kết quả ghi vào `docs/evidence/stack-verification.json`. Chờ Prometheus có ít nhất hai chu kỳ scrape và Promtail chuyển log rồi kiểm tra; No data không có nghĩa là đạt.
+
+Trong lúc chuẩn bị Docker có thể chạy `node scripts/test-native.js` để kiểm tra ứng dụng với PostgreSQL 17 riêng tại cổng 55433. Đây là test phụ trên Windows, **không phải nghiệm thu Compose/Nginx/Grafana/Loki**. `node scripts/test-native.js --serve` mở preview ứng dụng ở 3300, dùng Ctrl+C để dừng.
+
+## Metrics và log
+
+Grafana tự provision hai datasource cùng dashboard 15 panel, gồm Network receive/transmit theo service (B/s). Có metrics app/request/status/p95, Nginx connections/request, PostgreSQL up/connections/transactions và CPU/RAM container qua cAdvisor. Nếu cAdvisor trên Docker Desktop thiếu label container, ghi rõ hạn chế và sửa trước khi kết luận đã giám sát được từng container.
+
+Xem [3 query LogQL và cách tạo dữ liệu](docs/LOGQL.md). App dùng Pino JSON, Nginx access JSON; PostgreSQL có log kết nối/lỗi. Promtail đọc volume chỉ đọc, không nhận Docker socket. Promtail đã EOL nhưng được giữ đúng yêu cầu bài lab localhost.
+
+## Bảo mật local
+
+- Tất cả cổng host bind 127.0.0.1, không mở LAN/Internet.
+- App chạy UID node, read-only root filesystem, drop capabilities, no-new-privileges.
+- DB network internal, role app không superuser/owner schema; role monitoring tách riêng.
+- Mật khẩu khác nhau, `.env` ngoài Git, secret không COPY vào image.
+- Nginx security headers; `/metrics`, `/health/*`, `/stub_status` không public.
+- Truy vấn tham số hóa, render escape HTML, session server-side và CSRF.
+
+cAdvisor là ngoại lệ privileged với read-only host mounts phục vụ lab; Promtail có quyền đọc các volume log read-only, không mount dữ liệu database hoặc Docker socket. Không coi đây là bảo đảm chống mọi container escape. HTTP localhost có security headers. HTTPS tự ký tại https://localhost, TLS 1.2/1.3; cookie Secure tự động khi đi qua HTTPS. Chứng chỉ có SAN localhost/127.0.0.1, được tạo riêng bởi npm run setup và không commit key. Trình duyệt có thể cảnh báo vì CA tự ký; người dùng tự quyết định tin cậy chứng chỉ local. Không cài CA vào Windows tự động, không tắt xác minh TLS. node scripts/verify-tls.js kiểm tra trực tiếp Nginx trong Docker với CA cụ thể (tránh phần mềm antivirus thay chứng chỉ trên host). Giữ HTTP 8080 cho demo không cần chỉnh kho tin cậy; không bật HSTS cho localhost.
+
+## Backup và kiểm tra phục hồi
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/backup.ps1
+powershell -ExecutionPolicy Bypass -File scripts/restore-test.ps1 -BackupFile backups/appointment-YYYYMMDD-HHMMSS.dump
+```
+
+Dump dạng custom được copy binary-safe, không pipeline byte nhị phân qua PowerShell. Restore tạo DB kiểm chứng mới, không ghi đè DB gốc. Kiểm tra schema/count và lịch đã biết; giữ DB kiểm chứng cho pgAdmin xem. Backup local trên cùng ổ chưa bảo vệ khỏi hỏng ổ, cần lưu thêm bản sao khi bàn giao.
+
+## Vận hành
+
+```powershell
+docker compose logs --tail=100 app nginx postgres
+docker compose restart app
+docker compose stop
+docker compose up -d --wait
+```
+
+`stop/start` hoặc `down/up` giữ named volume; **không dùng `docker compose down -v`** nếu cần dữ liệu. Khi sửa config Nginx, kiểm tra `docker compose exec nginx nginx -t` rồi reload; khi đổi image/app, build và up lại đúng service. Nginx dùng resolver Docker DNS cho upstream động; đã thử recreate app không reload proxy. Không chỉnh dữ liệu test cũ thành kết quả bài nộp.
+
+## Trạng thái thực tế và hồ sơ
+
+Xem [trạng thái triển khai](docs/TRANG_THAI_LOCALHOST.md), [kế hoạch local](docs/03_KE_HOACH_PROJECT.md), [hồ sơ phân tích](docs/README.md) và `docs/project_data.json`. Chỉ đánh dấu hạ tầng đạt khi đã có output kiểm thử thật. Không sử dụng ảnh/kết quả báo cáo mẫu làm bằng chứng của project.
+
+Kết quả rà soát yêu cầu và các mục hồ sơ còn thiếu: [đối chiếu đề bài và báo cáo mẫu](docs/08_DOI_CHIEU_DE_BAI_VA_BAO_CAO.md). Có thể chạy `node scripts/audit-requirements.js` để kiểm tra sâu. Xoay log hiện chạy trong container Nginx để cùng phục hồi khi restart; Promtail app/Nginx đọc file hiện hành và lấy thời gian JSON.
+
+## Image ứng dụng sau khắc phục bảo mật
+
+Runtime Alpine 3.23 + Node 24.22.1, chỉ có dependency production; npm/Yarn ở build stage. App/migrate đã được kiểm thử và triển khai. Docker Scout quét mọi severity: **0 Critical, 0 High, 1 Medium BusyBox chưa có bản vá**, không dùng suppression. [Chi tiết thay đổi, kiểm thử và giới hạn](docs/12_KHAC_PHUC_IMAGE_UNG_DUNG.md). Không suy ra kết quả này cho các image hạ tầng chưa quét. Khi cần nhận bản vá OS mới, build với `--pull --no-cache`, quét và kiểm thử trước khi thay image release.
+
+## Ba mốc Git theo đề bài
+
+Nhánh main có đúng ba commit: (1) Web/PostgreSQL/pgAdmin/Nginx, (2) Prometheus/Grafana, (3) Loki/Promtail/LogQL/hardening và báo cáo. Lịch sử đã được gộp có sao lưu cục bộ. Xem [cách hiểu và demo từng mốc](docs/14_BA_MOC_GIT_VA_CACH_BAO_VE.md).

@@ -6,10 +6,10 @@
   <meta name="description" content="Đặt lịch tư vấn và hỗ trợ kỹ thuật. Lựa chọn dịch vụ, chọn thời gian và theo dõi lịch hẹn của bạn.">
   <title><%= title %> · Mạnh Appointment</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/style.css?v=2">
+  <link rel="stylesheet" href="/assets/style.css?v=5">
 </head>
 <body>
 <header class="topbar"><div class="container nav">
   <a class="brand" href="/"><span class="brand-mark">m<span>↗</span></span><span>Mạnh<span class="brand-caption">APPOINTMENT</span></span></a>
-  <nav aria-label="Điều hướng chính"><a href="/#services">Dịch vụ</a><a href="/#booking">Đặt lịch</a><a href="/#lookup">Tra cứu</a><a class="nav-admin" href="/admin">Quản trị <span aria-hidden="true">↗</span></a></nav>
+  <nav aria-label="Điều hướng chính"><a href="/#services">Dịch vụ</a><a href="/#booking">Đặt lịch</a><% if(customer){ %><a class="nav-admin" href="/account">Lịch của tôi ↗</a><form action="/logout" method="post" class="nav-logout"><input type="hidden" name="_csrf" value="<%= csrf %>"><button type="submit">Đăng xuất</button></form><% }else if(user){ %><a class="nav-admin" href="/admin">Bảng điều khiển ↗</a><% }else{ %><a class="nav-admin" href="/login">Đăng nhập ↗</a><% } %></nav>
 </div></header>

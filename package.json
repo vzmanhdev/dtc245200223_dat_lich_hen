@@ -11,7 +11,7 @@
     "migrate": "node --env-file-if-exists=.env app/migrate.js",
     "setup": "node scripts/setup-env.js",
     "test": "node --test tests/unit.test.js",
-    "test:integration": "node --env-file-if-exists=.env --test --test-concurrency=1 tests/integration.test.js",
+    "test:integration": "node --env-file-if-exists=.env --test --test-concurrency=1 tests/*integration.test.js",
     "smoke": "node scripts/smoke.js"
   },
   "dependencies": {
