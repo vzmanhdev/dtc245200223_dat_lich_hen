@@ -29,9 +29,19 @@ await check('Container metrics identified by service',async()=>{const rows=await
 await check('Grafana dashboard provisioned',async()=>{const d=await json(grafana+'/api/dashboards/uid/appointment-local',{headers:{Authorization:auth}});assert.ok(d.dashboard.panels.length>=12);return `${d.dashboard.panels.length} panels`;});
 await check('Loki and 3 LogQL queries',async()=>{
   const queries=['{service="app",environment="local"}','{service="nginx",environment="local"} | json | __error__="" | status >= 400','sum(count_over_time({service="nginx",environment="local"} | json | __error__="" | status >= 400 [5m]))'];
-  await fetch(`http://127.0.0.1:${process.env.WEB_PORT || 8080}/logql-check-missing`);
+  const probe=await fetch(`http://127.0.0.1:${process.env.WEB_PORT || 8080}/logql-check-missing`);
+  assert.equal(probe.status,404);await probe.arrayBuffer();
   const results=[];
-  for(const query of queries){const url=grafana+'/api/datasources/proxy/uid/loki/loki/api/v1/query_range?query='+encodeURIComponent(query)+'&start='+((Date.now()-900000)*1000000)+'&end='+(Date.now()*1000000)+'&limit=20';const d=await json(url,{headers:{Authorization:auth}});assert.equal(d.status,'success');assert.ok(d.data.result.length,'No log results: wait for Promtail to ship logs, then retry.');results.push({query,streams:d.data.result.length});}
+  for(const query of queries){
+    let d;
+    for(let attempt=0;attempt<8;attempt++){
+      const now=Date.now(),url=grafana+'/api/datasources/proxy/uid/loki/loki/api/v1/query_range?query='+encodeURIComponent(query)+'&start='+((now-900000)*1000000)+'&end='+(now*1000000)+'&limit=20';
+      d=await json(url,{headers:{Authorization:auth}});assert.equal(d.status,'success');
+      if(d.data.result.length)break;
+      if(attempt<7)await new Promise(resolve=>setTimeout(resolve,2000));
+    }
+    assert.ok(d.data.result.length,'No log results after bounded ingestion retries; inspect Promtail/Loki.');results.push({query,streams:d.data.result.length});
+  }
   return results;
 });
 mkdirSync('docs/evidence',{recursive:true});report.status=report.checks.every(x=>x.status==='passed')?'passed':'failed';writeFileSync('docs/evidence/stack-verification.json',JSON.stringify(report,null,2));console.log('Overall:',report.status);if(report.status!=='passed')process.exitCode=1;
