@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-23T18:27:40.834Z",
+  "scope": "registry metadata linux/amd64 only",
+  "images": [
+    {
+      "image": "postgres:17-bookworm",
+      "digest": "sha256:ec4dfc6571f04fe0731ce948c1500d676af49a7224392dcc6995cc1ee33a94bb",
+      "status": "passed"
+    },
+    {
+      "image": "nginxinc/nginx-unprivileged:stable-alpine",
+      "digest": "sha256:e2a8fca8aa356d66159aaf8a877a9c126773635adf210503eefaaeaffeed6ad7",
+      "status": "passed"
+    },
+    {
+      "image": "dpage/pgadmin4:9",
+      "digest": "sha256:33eb7d070ee7500d1513453773f61df1256fdea08257d4a3f4aebd8cf1cc87cf",
+      "status": "passed"
+    },
+    {
+      "image": "busybox:1.37.0",
+      "digest": "sha256:66a6306db78bf2dbf3487f293aa8d6990d8e506fdffab9cc43fe422becf886e4",
+      "status": "passed"
+    },
+    {
+      "image": "ghcr.io/google/cadvisor:0.55.1",
+      "digest": "sha256:2e0be37be732d9dd545410f03c67de63e83de6876530078909c91ccb41a826db",
+      "status": "passed"
+    },
+    {
+      "image": "quay.io/prometheuscommunity/postgres-exporter:v0.17.1",
+      "digest": "sha256:9fca39a4307092387b7de884bed4b62205cb88a6a5fdb423b9a70ea80b34efb3",
+      "status": "passed"
+    },
+    {
+      "image": "prom/prometheus:v3.5.0",
+      "digest": "sha256:8672a850efe2f9874702406c8318704edb363587f8c2ca88586b4c8fdb5cea24",
+      "status": "passed"
+    },
+    {
+      "image": "grafana/loki:3.5.1",
+      "digest": "sha256:3a4e80320df38087263e9d450fd812010ee57e1e0b0679465672c0e227441f43",
+      "status": "passed"
+    },
+    {
+      "image": "grafana/promtail:3.5.1",
+      "digest": "sha256:7796bd5ae600370ef47e58901310c91e60dc15eb13a3b2e20f1a940cb2777a57",
+      "status": "passed"
+    },
+    {
+      "image": "grafana/grafana:12.1.1",
+      "digest": "sha256:5749a0e982878aedaa2d320ed14d3bdce7a040a938f482258670009d419a597f",
+      "status": "passed"
+    },
+    {
+      "image": "nginx/nginx-prometheus-exporter:1.5.3",
+      "digest": "sha256:520c047935a8a59586c31f51a10d6b13e0efeb07221d7a49455ee51f236dcd62",
+      "status": "passed"
+    },
+    {
+      "image": "node:24-bookworm-slim",
+      "digest": "sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae",
+      "status": "passed"
+    }
+  ]
+}
