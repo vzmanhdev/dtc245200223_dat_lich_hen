@@ -1,9 +1,15 @@
-FROM node:24-bookworm-slim@sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae AS dependencies
+FROM node:24-alpine3.23@sha256:47019ffab12a48f49795a8279603f87e91a64de017fb9aa874e64f489b686079 AS dependencies
+RUN apk upgrade --no-cache
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
-FROM node:24-bookworm-slim@sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae
+# Runtime contains Node and production dependencies, not build-time npm/Yarn.
+# Keep the Alpine package database so scanners can identify installed OS packages.
+FROM alpine:3.23@sha256:3d67941fed5ae436b2bb9791cb3f50a252441c7706bbc5b4e738936df8ff8306
+RUN apk upgrade --no-cache && apk add --no-cache libstdc++ \
+    && addgroup -g 1000 node && adduser -u 1000 -G node -D node
+COPY --from=dependencies /usr/local/bin/node /usr/local/bin/node
 ENV NODE_ENV=production PORT=3000 LOG_DIR=/var/log/appointment
 WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
